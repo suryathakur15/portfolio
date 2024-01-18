@@ -1,4 +1,4 @@
-name: GitHub Pages Deploy
+name: GitHub Pages Deploy ⚡️
 
 on:
   push:
@@ -16,10 +16,10 @@ jobs:
         with:
           node-version: "16.x"
 
-      - name: Installing my packages
+      - name: Installing my packages 📦
         run: npm i
 
-      - name: Build my App
+      - name: Build my App ✍🏻
         run: npm run build && npm run export && touch ./out/.nojekyll
 
       - name: Deploy 🚀
