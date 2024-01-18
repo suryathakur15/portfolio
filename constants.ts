@@ -1,7 +1,7 @@
 export const METADATA = {
   title: "Surya ()=> Fullstack Engineer",
   description:
-    "I bridge the gap between design and development. I take responsibility to craft an aesthetic user experience using modern frontend architecture.",
+    "I code from pixeles to databases. I take responsibility to craft an aesthetic user experience and higly available systems using modern frontend and backend architecture.",
   siteUrl: "https://www.suryathakur.com",
 };
 
