@@ -1,5 +1,5 @@
 export const METADATA = {
-  title: "Surya ()=> Fullstack Engineer",
+  title: "Surya = () => Fullstack Engineer",
   description:
     "I code from pixeles to databases. I take responsibility to craft an aesthetic user experience and higly available systems using modern frontend and backend architecture.",
   siteUrl: "https://www.suryathakur.com",
