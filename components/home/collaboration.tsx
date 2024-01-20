@@ -100,7 +100,7 @@ const CollaborationSection = () => {
   return (
     <section className={COLLABORATION_STYLE.SECTION} ref={targetSection}>
       {renderSlidingText(
-        " Thoughts into code  User Experience Design ",
+        "Convert Thoughts into Code  User Experience Design ",
         "ui-left"
       )}
 

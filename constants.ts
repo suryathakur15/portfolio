@@ -94,7 +94,7 @@ export const SKILLS = {
     "cloudfront",
     "codecommit",
     "codedeploy",
-    "ec2autoscaling",
+    "ec2autoscaling", 
     "ec2",
     "elasticcache",
     "lambda",
