@@ -75,11 +75,19 @@ export const SKILLS = {
     "flask",
     "git",
     "postman",
-    "bootstrap",
     "linux",
   ],
 
-  frontend: ["react", "redux", "next", "tailwind", "svg", "html", "css"],
+  frontend: [
+    "react",
+    "redux",
+    "next",
+    "tailwind",
+    "bootstrap",
+    "svg",
+    "html",
+    "css",
+  ],
 
   cloud: [
     "apigateway",
