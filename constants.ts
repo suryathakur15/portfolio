@@ -1,7 +1,7 @@
 export const METADATA = {
   title: "Surya = () => Fullstack Engineer",
   description:
-    "I code from pixeles to databases. I take responsibility to craft an aesthetic user experience and higly available systems using modern frontend and backend architecture.",
+    "I code from pixeles to databases. I take responsibility to craft an aesthetic user experience and higly available and scalable systems, using modern frontend and backend architecture.",
   siteUrl: "https://www.suryathakur.com",
 };
 
@@ -31,7 +31,7 @@ export const MENULINKS = [
 export const TYPED_STRINGS = [
   "I code from Pixels to Databases",
   "I am a Startup Enthusiast",
-  "I design systems from scratch",
+  "I design Systems from Scratch",
 ];
 
 export const EMAIL = "spsjnvf@gmail.com";
@@ -70,18 +70,26 @@ export const SKILLS = {
     "mysql",
     "mongodb",
     "redis",
-    // "apache",
+    "apache",
     "drupal",
     "flask",
     "git",
     "postman",
     "linux",
+    "elasticsearch",
+    "aws",
+    "rabbitmq",
+    "graphql",
+    "fastify",
+    "docker",
+    "solr",
   ],
 
   frontend: [
     "react",
     "redux",
     "next",
+    "jamstack",
     "tailwind",
     "bootstrap",
     "svg",
@@ -94,7 +102,7 @@ export const SKILLS = {
     "cloudfront",
     "codecommit",
     "codedeploy",
-    "ec2autoscaling", 
+    "ec2autoscaling",
     "ec2",
     "elasticcache",
     "lambda",

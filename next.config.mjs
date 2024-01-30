@@ -7,6 +7,9 @@ const nextConfig = {
     path: "",
   },
   assetPrefix: "./",
+  experimental: {
+    forceSwcTransforms: true,
+  },
 };
 
 export default nextConfig;

@@ -15,10 +15,6 @@ const SkillsSection = () => {
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
   const [willChange, setwillChange] = useState(false);
 
-  const imageLoader = ({ src, width, quality }: any) => {
-    return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
-  };
-
   const initRevealAnimation = (
     targetSection: MutableRefObject<HTMLDivElement>
   ): ScrollTrigger => {
@@ -91,14 +87,17 @@ const SkillsSection = () => {
         }`}
       >
         {skills.map((skill) => (
-          <Image
-            key={skill}
-            src={`/skills/${skill}.svg`}
-            alt={skill}
-            width={76}
-            height={76}
-            className="skill"
-          />
+          <div key={skill} className="skill__wrapper">
+            <Image
+              key={skill}
+              src={`/skills/${skill}.svg`}
+              alt={skill}
+              width={64}
+              height={64}
+              className="skill"
+            />
+            <p className="skill__name">{skill}</p>
+          </div>
         ))}
       </div>
     </>

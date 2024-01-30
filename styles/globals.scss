@@ -205,12 +205,13 @@ a {
 .text-strong {
   background: linear-gradient(
     90deg,
-    #ffffff 0%,
+    #ffffff 5%,
     #ffffff 50%,
     #6dd5ed 51%,
     #2193b0 100%
   );
   background-size: 200% 100%;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -219,9 +220,52 @@ a {
   display: none;
 }
 
-.skill {
+.skill__wrapper {
+  position: relative;
   padding-right: 1.25rem !important;
-  padding-bottom: 1.25rem !important;
+  animation: fadeInOut 2s;
+
+  &:hover {
+    .skill__name {
+      opacity: 1;
+    }
+  }
+}
+
+.skill {
+  height: 46px;
+  width: 46px;
+
+  @media (min-width: 768px) {
+    height: 64px;
+    width: 64px;
+  }
+
+  @media (min-width: 1536px) {
+    height: 72px;
+    width: 72px;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.skill__name {
+  opacity: 0;
+  font-size: 10px;
+  color: #f3f3f3;
+  letter-spacing: 0.15;
+  text-align: center;
+  margin-top: 4px;
+  text-transform: capitalize;
+  margin-bottom: 1.25rem !important;
 }
 
 footer {

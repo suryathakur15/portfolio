@@ -11,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge, chrome=1" />
         <meta name="description" content={METADATA.description} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
