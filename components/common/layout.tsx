@@ -12,6 +12,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+
+        <meta
+          name="keywords"
+          content="surya, surya thakur, Surya Pratap Singh, Surya, Surya Thakur, Software Engineer, Engineering, Probo, Fullstack, Frontend, Backend, Engineering, System design, Nodejs, React, Expressjs"
+          data-react-helmet="true"
+        />
+
         <meta name="description" content={METADATA.description} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
@@ -19,10 +26,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <meta property="og:description" content={METADATA.description} />
         <meta property="og:url" content={METADATA.siteUrl} />
         <meta property="og:site_name" content={METADATA.title} />
+
         <meta
           property="og:image"
           content="https://www.suryathakur.com/preview.png"
         />
+
         <meta property="og:image:secure_url" content={METADATA.siteUrl} />
         <meta property="og:image:width" content="1440" />
         <meta property="og:image:height" content="800" />
