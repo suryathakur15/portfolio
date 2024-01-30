@@ -71,8 +71,8 @@ const AboutSection = () => {
           willChange ? "will-change-opacity" : ""
         }`}
       >
-        I take responsibility to craft a good user experience on high available,
-        consistent and partition tolerant systems.
+        I take responsibility to craft a good user experience on highly
+        available, consistent and partition tolerant systems.
       </span>
     </h1>
   );
