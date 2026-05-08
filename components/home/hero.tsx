@@ -54,16 +54,16 @@ const HeroSection = React.memo(() => {
       <a
         href={SOCIAL_LINKS[el]}
         key={el}
-        className="link hover:scale-125 transition-all duration-300 mr-6 opacity-60 hover:opacity-100 group"
+        className="relative w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:border-accent-primary/50 hover:bg-accent-primary/10 transition-all duration-300 group mr-4"
         rel="noreferrer"
         target="_blank"
       >
         <Image 
           src={`/social/${el}.svg`} 
           alt={el} 
-          width={24} 
-          height={24} 
-          className="invert group-hover:drop-shadow-[0_0_10px_rgba(99,102,241,1)] transition-all" 
+          width={20} 
+          height={20} 
+          className="invert opacity-70 group-hover:opacity-100 transition-all" 
         />
       </a>
     ));
@@ -116,13 +116,13 @@ const HeroSection = React.memo(() => {
               <span className="text-accent-primary font-bold whitespace-nowrap" ref={typedSpanElement} />
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 seq mb-16">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-8 seq mb-16">
               <Button
                 type={ButtonTypes.PRIMARY}
                 name="Let's Connect"
                 href={SOCIAL_LINKS.linkedin}
                 otherProps={{ target: "_blank", rel: "noreferrer" }}
-                classes="px-8 py-3.5 text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight"
+                classes="px-10 py-4 text-lg rounded-2xl shadow-2xl shadow-accent-primary/30 hover:scale-105 transition-all duration-300 font-black tracking-tight relative overflow-hidden group/btn"
               />
               <div className="flex items-center">
                 {renderSocialLinks()}
