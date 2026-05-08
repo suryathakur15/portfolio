@@ -17,7 +17,7 @@ const Footer = () => {
           <div className="flex flex-col items-start max-w-lg">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white tracking-tighter leading-[1.08] mb-4">
               Let&apos;s build something{" "}
-              <span className="text-gradient">Legendary.</span>
+              <span className="text-gradient font-accent text-4xl sm:text-5xl md:text-6xl lowercase">Legendary.</span>
             </h2>
             <p className="text-base md:text-lg text-white/50 font-light mb-8 leading-relaxed">
               Open for collaborations, architecture consulting,&nbsp;
