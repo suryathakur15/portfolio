@@ -130,9 +130,7 @@ const HeroSection = React.memo(() => {
                 otherProps={{ target: "_blank", rel: "noreferrer" }}
                 classes="px-8 py-3.5 text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap"
               />
-              <div className="flex items-center">
-                {renderSocialLinks()}
-              </div>
+              <div className="flex items-center">{renderSocialLinks()}</div>
             </div>
           </div>
 
