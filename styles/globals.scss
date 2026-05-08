@@ -31,10 +31,31 @@ body {
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   @media (min-width: 768px) {
     font-size: 16px;
   }
+}
+
+/* iOS Safari performance and rendering fixes */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+section {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .glass {

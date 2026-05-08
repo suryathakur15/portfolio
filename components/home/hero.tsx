@@ -98,9 +98,9 @@ const HeroSection = React.memo(() => {
       <div className="section-container py-24 md:py-32 w-full">
         <div className="flex flex-col md:flex-row items-center justify-between gap-16">
           <div className="flex-1 text-center md:text-left mt-12">
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-amber-500/30 bg-amber-500/10 mb-10 seq shadow-lg shadow-amber-500/10">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shadow-[0_0_10px_rgba(245,158,11,1)]" />
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-amber-500">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 mb-8 seq shadow-lg shadow-amber-500/10 max-w-full overflow-hidden">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shadow-[0_0_10px_rgba(245,158,11,1)] shrink-0" />
+              <span className="text-[9px] sm:text-xs font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-amber-500 whitespace-nowrap">
                 Currently Architecting Neary.in
               </span>
             </div>
@@ -109,9 +109,9 @@ const HeroSection = React.memo(() => {
               System Architect &amp; Lead Engineer
             </h2>
 
-            <h1 className="text-6xl md:text-8xl font-display font-bold seq leading-[1.05] mb-8 tracking-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-bold seq leading-tight mb-8 tracking-tight">
               Architecting <br />
-              <span className="text-gradient font-accent text-7xl md:text-9xl lowercase">
+              <span className="text-gradient font-accent text-5xl sm:text-7xl md:text-9xl lowercase">
                 the Future.
               </span>
             </h1>
@@ -124,15 +124,17 @@ const HeroSection = React.memo(() => {
               />
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 seq mb-16">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 seq mb-16 w-full">
               <Button
                 type={ButtonTypes.PRIMARY}
                 name="Let's Connect"
                 href={SOCIAL_LINKS.linkedin}
                 otherProps={{ target: "_blank", rel: "noreferrer" }}
-                classes="px-8 py-3.5 text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap"
+                classes="px-8 py-3.5 text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap w-full sm:w-auto"
               />
-              <div className="flex items-center">{renderSocialLinks()}</div>
+              <div className="flex items-center gap-4 overflow-x-auto flex-nowrap no-scrollbar py-3 px-1 w-full sm:w-auto justify-center md:justify-start -mx-4 sm:mx-0 px-4 sm:px-0 touch-pan-x">
+                {renderSocialLinks()}
+              </div>
             </div>
           </div>
 

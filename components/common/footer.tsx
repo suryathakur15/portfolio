@@ -61,7 +61,7 @@ const Footer = () => {
                   alt={el}
                   width={20}
                   height={20}
-                  className="invert opacity-50 group-hover:opacity-100 transition-opacity"
+                  className="invert brightness-[2] opacity-70 group-hover:opacity-100 transition-all"
                 />
               </a>
             ))}

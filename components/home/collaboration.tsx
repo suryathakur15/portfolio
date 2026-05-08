@@ -46,7 +46,7 @@ const CollaborationSection = () => {
         {/* Sub-copy */}
         <p className="cta-reveal text-xl md:text-2xl text-white/50 font-light leading-relaxed mb-14 max-w-2xl">
           Whether it&apos;s a high-scale backend, an AI product, or a
-          mission-critical architecture — let&apos;s make it happen.
+          mission-critical architecture, let&apos;s make it happen.
         </p>
 
         {/* CTA Buttons */}

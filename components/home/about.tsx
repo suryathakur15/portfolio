@@ -48,8 +48,8 @@ const AboutSection = () => {
             <p>
               Currently spearheading engineering at{" "}
               <span className="text-white font-medium">HighLevel</span> and
-              building <span className="text-amber-400 font-medium">Neary</span>{" "}
-              — an AI-powered social discovery platform — from the ground up.
+              building <span className="text-amber-400 font-medium">Neary</span>,
+              an AI-powered social discovery platform, from the ground up.
             </p>
           </div>
         </div>
