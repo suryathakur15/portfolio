@@ -54,7 +54,7 @@ const HeroSection = React.memo(() => {
       <a
         href={SOCIAL_LINKS[el]}
         key={el}
-        className="relative w-12 h-12 flex flex-shrink-0 items-center justify-center rounded-full bg-white/10 border border-white/20 hover:border-accent-primary/50 hover:bg-accent-primary/20 transition-all duration-300 group mr-4"
+        className="relative w-12 h-12 flex flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 hover:border-accent-primary/50 hover:bg-accent-primary/20 transition-all duration-300 group mr-4"
         rel="noreferrer"
         target="_blank"
       >
@@ -105,7 +105,7 @@ const HeroSection = React.memo(() => {
               </span>
             </div>
 
-            <h2 className="text-xl md:text-2xl font-display font-semibold text-accent-primary mb-6 seq uppercase tracking-[0.4em]">
+            <h2 className="text-sm sm:text-lg md:text-2xl font-display font-semibold text-accent-primary mb-6 seq uppercase tracking-[0.1em] sm:tracking-[0.4em] max-w-full leading-snug">
               System Architect &amp; Lead Engineer
             </h2>
 
@@ -130,7 +130,7 @@ const HeroSection = React.memo(() => {
                 name="Let's Connect"
                 href={SOCIAL_LINKS.linkedin}
                 otherProps={{ target: "_blank", rel: "noreferrer" }}
-                classes="px-6 py-3 text-sm sm:px-8 sm:py-3.5 sm:text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap w-full sm:w-auto"
+                classes="px-5 py-3 text-[13px] sm:px-8 sm:py-3.5 sm:text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap w-full sm:w-auto"
               />
               <div className="flex items-center gap-4 overflow-x-auto flex-nowrap no-scrollbar py-3 px-1 w-full sm:w-auto justify-center md:justify-start -mx-4 sm:mx-0 px-4 sm:px-0 touch-pan-x">
                 {renderSocialLinks()}
