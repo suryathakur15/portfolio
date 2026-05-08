@@ -6,7 +6,8 @@ const nextConfig = {
     loader: "akamai",
     path: "",
   },
-  assetPrefix: "./",
+  trailingSlash: true,
+  // Remove assetPrefix for custom domain root deployment
 };
 
 export default nextConfig;
