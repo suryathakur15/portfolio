@@ -17,6 +17,8 @@ import TimelineSection from "@/components/home/timeline";
 import Scripts from "@/components/common/scripts";
 import AboutSection from "@/components/home/about";
 import Menu from "@/components/common/menu";
+import ProjectModal from "@/components/home/ProjectModal";
+import { IProject } from "../constants";
 
 const DEBOUNCE_TIME = 100;
 
@@ -33,6 +35,7 @@ export default function Home() {
   gsap.config({ nullTargetWarn: false });
 
   const [isDesktop, setisDesktop] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
 
   let timer: NodeJS.Timeout = null;
 
@@ -67,11 +70,12 @@ export default function Home() {
       <Layout>
         <Header menuVisible={menuVisible} setmenuVisible={setmenuVisible} />
         <Menu setmenuVisible={setmenuVisible} visible={menuVisible} />
+        <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
         <ProgressIndicator />
         <main className="flex-col flex min-h-screen">
           <HeroSection />
           <AboutSection />
-          <ProjectsSection isDesktop={isDesktop} />
+          <ProjectsSection isDesktop={isDesktop} setSelectedProject={setSelectedProject} />
           <SkillsSection />
           <TimelineSection isDesktop={isDesktop} />
           <CollaborationSection />

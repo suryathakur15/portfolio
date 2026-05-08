@@ -1,39 +1,76 @@
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 import {
-  Branch,
-  BranchNode,
   CheckpointNode,
+  BranchNode,
   ItemSize,
   MENULINKS,
   NodeTypes,
   TIMELINE,
   TimelineNodeV2,
+  Branch,
 } from "../../constants";
-import Image from "next/image";
-import { gsap, Linear } from "gsap";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { IDesktop, isSmallScreen } from "pages";
+import { IDesktop } from "pages";
 
-const svgColor = "rgba(255, 255, 255, 0.1)";
-const animColor = "#6366f1";
-const separation = 450;
-const strokeWidth = 3;
-const leftBranchX = 13;
-const curveLength = 150;
-const dotSize = 26;
+// ─────────────────────────────────────────────
+// Per-card colour palette — subtle, professional
+// ─────────────────────────────────────────────
+const CARD_ACCENTS = [
+  {
+    // IIT Delhi — amber/gold (leadership / mentorship)
+    dot:    "#F59E0B",
+    fill:   "rgba(245,158,11,0.06)",
+    border: "rgba(245,158,11,0.25)",
+    glow:   "rgba(245,158,11,0.15)",
+    text:   "#FCD34D",
+    label:  "rgba(245,158,11,0.7)",
+  },
+  {
+    // GoDaddy — emerald (enterprise / fintech)
+    dot:    "#10B981",
+    fill:   "rgba(16,185,129,0.06)",
+    border: "rgba(16,185,129,0.25)",
+    glow:   "rgba(16,185,129,0.15)",
+    text:   "#6EE7B7",
+    label:  "rgba(16,185,129,0.7)",
+  },
+  {
+    // Probo — electric blue (high-frequency / sports)
+    dot:    "#3B82F6",
+    fill:   "rgba(59,130,246,0.06)",
+    border: "rgba(59,130,246,0.25)",
+    glow:   "rgba(59,130,246,0.15)",
+    text:   "#93C5FD",
+    label:  "rgba(59,130,246,0.7)",
+  },
+  {
+    // Merkle II — violet (data / analytics)
+    dot:    "#8B5CF6",
+    fill:   "rgba(139,92,246,0.06)",
+    border: "rgba(139,92,246,0.25)",
+    glow:   "rgba(139,92,246,0.15)",
+    text:   "#C4B5FD",
+    label:  "rgba(139,92,246,0.7)",
+  },
+  {
+    // Merkle I — rose (first role / origin)
+    dot:    "#F43F5E",
+    fill:   "rgba(244,63,94,0.06)",
+    border: "rgba(244,63,94,0.25)",
+    glow:   "rgba(244,63,94,0.15)",
+    text:   "#FDA4AF",
+    label:  "rgba(244,63,94,0.7)",
+  },
+];
 
 const TimelineSection = ({ isDesktop }: IDesktop) => {
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
 
   useEffect(() => {
-    const revealTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: targetSection.current,
-        start: "top 80%",
-      },
-    });
-
-    revealTl.from(targetSection.current.querySelectorAll(".seq"), {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from(targetSection.current.querySelectorAll(".seq"), {
+      scrollTrigger: { trigger: targetSection.current, start: "top 80%" },
       opacity: 0,
       y: 30,
       duration: 0.8,
@@ -42,82 +79,185 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
     });
   }, []);
 
+  const checkpoints = TIMELINE.filter(
+    (item): item is CheckpointNode => item.type === NodeTypes.CHECKPOINT
+  );
+
   return (
     <section
-      className="w-full relative select-none section-container py-32 flex flex-col justify-center overflow-hidden"
+      className="w-full relative select-none section-container py-24 md:py-32 overflow-hidden"
       id={MENULINKS[3].ref}
       ref={targetSection}
     >
-      {/* Background Depth Effects */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
-      
-      <div className="flex flex-col mb-24 items-center text-center relative z-10">
-        <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase mb-4 seq">MILESTONES</p>
-        <h1 className="text-5xl md:text-7xl font-display font-bold mb-6 seq">
+      {/* Background orb */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-primary/[0.04] rounded-full blur-[120px] pointer-events-none" />
+
+      {/* ── Section header ── */}
+      <div className="flex flex-col items-center text-center mb-20 md:mb-28 relative z-10">
+        <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-4 seq">
+          Milestones
+        </p>
+        <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-[1.04] mb-6 seq">
           Engineering <span className="text-gradient">Evolution</span>
-        </h1>
-        <div className="w-24 h-1 bg-gradient-to-r from-transparent via-accent-primary to-transparent mb-8 seq"></div>
-        <h2 className="text-xl opacity-60 max-w-2xl seq">
-          A winding path through architectural challenges, leadership, and system scaling.
         </h2>
+        <div className="w-20 h-[3px] bg-gradient-to-r from-transparent via-accent-primary to-transparent mb-6 seq" />
+        <p className="text-lg text-white/50 font-light max-w-xl seq">
+          A journey through architectural challenges, leadership, and system scaling.
+        </p>
       </div>
 
-      <div className="relative mt-12 px-4 md:px-0 z-10">
-        {/* Creative Vertical Path with Enhanced Visibility */}
-        <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-[2px]">
-           <div className="absolute inset-0 bg-gradient-to-b from-accent-primary/30 via-accent-secondary/60 to-transparent"></div>
-           <div className="absolute inset-0 bg-accent-primary blur-[4px] opacity-30"></div>
-           {/* Animated glow point that follows scroll could be cool, but keeping it simple for stability */}
+      {/* ── Timeline ── */}
+      <div className="relative z-10">
+        {/* Vertical line */}
+        <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-[2px] md:-translate-x-1/2">
+          <div className="absolute inset-0 bg-gradient-to-b from-accent-primary/40 via-accent-secondary/40 to-transparent" />
+          <div className="absolute inset-0 bg-accent-primary blur-[4px] opacity-15" />
         </div>
 
-        <div className="space-y-28">
-          {TIMELINE.map((item, index) => {
-            if (item.type !== NodeTypes.CHECKPOINT) return null;
-            const isLeft = index % 2 === 0;
+        <div className="flex flex-col">
+          {checkpoints.map((item, idx) => {
+            const accent = CARD_ACCENTS[idx % CARD_ACCENTS.length];
+            const isLeft = idx % 2 === 0;
 
             return (
-              <div key={index} className="relative flex items-center justify-between md:justify-normal group seq">
-                {/* Visual Connector Dot - More prominent */}
-                <div className="absolute left-[-5px] md:left-1/2 transform md:-translate-x-1/2 w-5 h-5 rounded-full bg-obsidian border-2 border-accent-primary/80 shadow-[0_0_20px_rgba(99,102,241,0.8)] z-20 transition-all duration-500 group-hover:scale-125 group-hover:shadow-[0_0_30px_rgba(99,102,241,1)]">
-                   <div className="absolute inset-1 rounded-full bg-accent-primary opacity-20 group-hover:opacity-100 transition-opacity"></div>
-                </div>
+              <div key={idx} className="relative group seq">
 
-                {/* Card Container */}
-                <div className={`
-                  ml-12 md:ml-0 w-full md:w-[44%] 
-                  ${isLeft ? 'md:mr-auto' : 'md:ml-auto'} 
-                  transition-all duration-500 transform group-hover:-translate-y-2
-                `}>
-                  <div className={`
-                    glass-card p-8 md:p-10 relative overflow-hidden group/card border-white/10 bg-white/[0.02]
-                    ${isLeft ? 'md:text-right md:border-r-accent-primary/30' : 'md:text-left md:border-l-accent-primary/30'}
-                  `}>
-                    {/* Decorative Background Elements */}
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-primary/60 to-transparent transform -translate-x-full group-hover/card:translate-x-full transition-transform duration-1000"></div>
-                    
-                    <span className="text-accent-primary font-display font-bold text-xs mb-4 block uppercase tracking-widest opacity-80 group-hover:opacity-100">
-                      {item.subtitle}
-                    </span>
-                    <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-4 group-hover:text-accent-primary transition-colors leading-tight">
-                      {item.title}
-                    </h3>
-                    
-                    <div className={`flex items-center gap-3 ${isLeft ? 'md:justify-end' : 'md:justify-start'}`}>
-                       <div className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold text-white/60 uppercase tracking-tighter group-hover:border-accent-primary/40 group-hover:text-accent-primary/80 transition-all">
-                          Experience #{TIMELINE.length - index}
-                       </div>
+                {/* ── Mobile layout ── */}
+                <div className="flex md:hidden items-start pb-12">
+                  {/* Dot */}
+                  <div className="relative flex-shrink-0 w-10 flex justify-center pt-2">
+                    <div
+                      className="w-4 h-4 rounded-full border-2 z-20 transition-all duration-400"
+                      style={{
+                        background: "#0c0c0e",
+                        borderColor: accent.dot,
+                        boxShadow: `0 0 12px ${accent.glow}`,
+                      }}
+                    >
+                      <div
+                        className="absolute inset-[3px] rounded-full opacity-20 group-hover:opacity-100 transition-opacity duration-500"
+                        style={{ background: accent.dot }}
+                      />
                     </div>
+                  </div>
 
-                    {/* Subtle Card Glow */}
-                    <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-accent-primary/5 rounded-full blur-3xl group-hover:bg-accent-primary/10 transition-all duration-500"></div>
+                  {/* Card */}
+                  <div className="flex-1 ml-4">
+                    <div
+                      className="rounded-2xl p-6 relative overflow-hidden transition-all duration-500"
+                      style={{
+                        background: "rgba(255,255,255,0.02)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                      }}
+                    >
+                      {/* Hover tint layer */}
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+                        style={{ background: accent.fill }}
+                      />
+                      {/* Hover border overlay */}
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl pointer-events-none"
+                        style={{ border: `1px solid ${accent.border}` }}
+                      />
+                      {/* Shimmer line */}
+                      <div
+                        className="absolute top-0 left-0 w-full h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                        style={{ background: `linear-gradient(90deg, transparent, ${accent.dot}, transparent)` }}
+                      />
+
+                      <div className="relative z-10">
+                        <span
+                          className="text-[10px] font-black uppercase tracking-[0.25em] mb-3 block transition-colors duration-300"
+                          style={{ color: accent.label }}
+                        >
+                          {item.subtitle}
+                        </span>
+                        <h3
+                          className="text-xl font-display font-bold text-white/80 leading-snug transition-colors duration-300 group-hover:text-white"
+                        >
+                          {item.title}
+                        </h3>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Date/Year Badge for Desktop - Ultimate Visibility */}
-                <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 font-display font-black text-[10rem] opacity-[0.08] text-white pointer-events-none select-none transition-all duration-700 group-hover:opacity-[0.25] group-hover:scale-105 group-hover:text-accent-primary
-                  ${isLeft ? 'left-[55%]' : 'right-[55%]'}
-                `}>
-                  {item.subtitle?.split('|')[1]?.trim().split(' ')[1]}
+                {/* ── Desktop layout ── */}
+                <div className={`hidden md:flex items-center mb-20 ${isLeft ? "" : "flex-row-reverse"}`}>
+
+                  {/* Card side */}
+                  <div className={`w-[46%] ${isLeft ? "pr-14" : "pl-14"}`}>
+                    <div
+                      className="rounded-2xl p-8 lg:p-10 relative overflow-hidden transition-all duration-500 group-hover:-translate-y-2"
+                      style={{
+                        background: "rgba(255,255,255,0.02)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                      }}
+                    >
+                      {/* Hover fill */}
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+                        style={{ background: accent.fill }}
+                      />
+                      {/* Hover border */}
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl pointer-events-none"
+                        style={{ border: `1px solid ${accent.border}` }}
+                      />
+                      {/* Top shimmer */}
+                      <div
+                        className="absolute top-0 left-0 w-full h-[2px] -translate-x-full group-hover:translate-x-full transition-transform duration-[900ms] rounded-t-2xl"
+                        style={{ background: `linear-gradient(90deg, transparent, ${accent.dot}, transparent)` }}
+                      />
+                      {/* Corner glow */}
+                      <div
+                        className="absolute -bottom-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-600 pointer-events-none"
+                        style={{ background: accent.glow }}
+                      />
+
+                      <div className={`relative z-10 ${isLeft ? "text-right" : "text-left"}`}>
+                        <span
+                          className="text-xs font-black uppercase tracking-[0.25em] mb-4 block transition-colors duration-300"
+                          style={{ color: accent.label }}
+                        >
+                          {item.subtitle}
+                        </span>
+                        <h3
+                          className="text-2xl lg:text-3xl font-display font-bold text-white/75 leading-tight transition-colors duration-300 group-hover:text-white"
+                        >
+                          {item.title}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Centre dot */}
+                  <div className="relative w-[8%] flex justify-center">
+                    <div
+                      className="w-5 h-5 rounded-full border-2 z-20 transition-all duration-500 group-hover:scale-125"
+                      style={{
+                        background: "#0c0c0e",
+                        borderColor: accent.dot,
+                        boxShadow: `0 0 16px ${accent.glow}`,
+                      }}
+                    >
+                      <div
+                        className="absolute inset-[4px] rounded-full opacity-20 group-hover:opacity-100 transition-opacity duration-500"
+                        style={{ background: accent.dot }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Year ghost */}
+                  <div className={`w-[46%] flex items-center ${isLeft ? "justify-start pl-6" : "justify-end pr-6"}`}>
+                    <span
+                      className="font-display font-black text-[7rem] lg:text-[9rem] leading-none opacity-0 group-hover:opacity-[0.12] pointer-events-none select-none transition-all duration-700"
+                      style={{ color: accent.dot }}
+                    >
+                      {item.subtitle?.split("|")[1]?.trim().split(" ")[1]}
+                    </span>
+                  </div>
                 </div>
               </div>
             );
@@ -130,12 +270,10 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
 
 export default TimelineSection;
 
+// Keep type declarations for existing imports
 type LinkedTimelineNode = LinkedCheckpointNode | LinkedBranchNode;
-
 type LinkedCheckpointNode = LinkNode & CheckpointNode;
-
 type LinkedBranchNode = LinkNode & BranchNode;
-
 interface LinkNode {
   next?: LinkedTimelineNode;
   prev?: LinkedTimelineNode;

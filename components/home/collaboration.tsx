@@ -1,115 +1,75 @@
-import { gsap, Linear } from "gsap";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import React, { useRef, useEffect } from "react";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { isSmallScreen, NO_MOTION_PREFERENCE_QUERY } from "pages";
-
-const COLLABORATION_STYLE = {
-  SLIDING_TEXT: "opacity-20 text-5xl md:text-7xl font-bold whitespace-nowrap",
-  SECTION:
-    "w-full relative select-none tall:py-36 py-48 section-container flex flex-col",
-  TITLE: "mt-6 md:mt-8 font-medium text-4xl md:text-5xl text-center",
-};
+import { EMAIL } from "../../constants";
 
 const CollaborationSection = () => {
-  const quoteRef: MutableRefObject<HTMLDivElement> = useRef(null);
-  const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
-
-  const [willChange, setwillChange] = useState(false);
-
-  const initTextGradientAnimation = (
-    targetSection: MutableRefObject<HTMLDivElement>
-  ): ScrollTrigger => {
-    const timeline = gsap.timeline({ defaults: { ease: Linear.easeNone } });
-    timeline
-      .from(quoteRef.current, { opacity: 0, duration: 2 })
-      .to(quoteRef.current.querySelector(".text-strong"), {
-        backgroundPositionX: "100%",
-        duration: 1,
-      });
-
-    return ScrollTrigger.create({
-      trigger: targetSection.current,
-      start: "center bottom",
-      end: "center center",
-      scrub: 0,
-      animation: timeline,
-      onToggle: (self) => setwillChange(self.isActive),
-    });
-  };
-
-  const initSlidingTextAnimation = (
-    targetSection: MutableRefObject<HTMLDivElement>
-  ) => {
-    const slidingTl = gsap.timeline({ defaults: { ease: Linear.easeNone } });
-
-    slidingTl
-      .to(targetSection.current.querySelector(".ui-left"), {
-        xPercent: isSmallScreen() ? -500 : -150,
-      })
-      .from(
-        targetSection.current.querySelector(".ui-right"),
-        { xPercent: isSmallScreen() ? -500 : -150 },
-        "<"
-      );
-
-    return ScrollTrigger.create({
-      trigger: targetSection.current,
-      start: "top bottom",
-      end: "bottom top",
-      scrub: 0,
-      animation: slidingTl,
-    });
-  };
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const textBgAnimation = initTextGradientAnimation(targetSection);
-    let slidingAnimation: ScrollTrigger | undefined;
-
-    const { matches } = window.matchMedia(NO_MOTION_PREFERENCE_QUERY);
-
-    if (matches) {
-      slidingAnimation = initSlidingTextAnimation(targetSection);
-    }
-
-    return () => {
-      textBgAnimation.kill();
-      slidingAnimation?.kill();
-    };
-  }, [quoteRef, targetSection]);
-
-  const renderSlidingText = (text: string, layoutClasses: string) => (
-    <p className={`${layoutClasses} ${COLLABORATION_STYLE.SLIDING_TEXT}`}>
-      {Array(5)
-        .fill(text)
-        .reduce((str, el) => str.concat(el), "")}
-    </p>
-  );
-
-  const renderTitle = () => (
-    <h1
-      ref={quoteRef}
-      className={`${COLLABORATION_STYLE.TITLE} ${
-        willChange ? "will-change-opacity" : ""
-      }`}
-    >
-      Interested in <span className="text-strong font-bold">Collaboration</span>
-      ?
-    </h1>
-  );
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from(sectionRef.current.querySelectorAll(".cta-reveal"), {
+      scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+      opacity: 0,
+      y: 40,
+      duration: 0.9,
+      stagger: 0.15,
+      ease: "power3.out",
+    });
+  }, []);
 
   return (
-    <section className={COLLABORATION_STYLE.SECTION} ref={targetSection}>
-      {renderSlidingText(
-        "Convert Thoughts into Code  User Experience Design ",
-        "ui-left"
-      )}
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="section-container py-28 md:py-36 relative overflow-hidden"
+    >
+      {/* Ambient glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-accent-primary/10 rounded-full blur-[120px]" />
+      </div>
 
-      {renderTitle()}
+      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
+        {/* Eyebrow */}
+        <span className="cta-reveal inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-accent-primary/30 bg-accent-primary/10 text-accent-primary font-display font-bold text-xs uppercase tracking-[0.25em] mb-10">
+          <span className="w-2 h-2 rounded-full bg-accent-primary animate-pulse" />
+          Open to Opportunities
+        </span>
 
-      {renderSlidingText(
-        " Backend Development  AWS Solutions ",
-        "mt-6 md:mt-8 ui-right"
-      )}
+        {/* Headline */}
+        <h2 className="cta-reveal text-5xl sm:text-6xl md:text-7xl font-display font-black tracking-tighter leading-[1.04] mb-8">
+          Ready to build{" "}
+          <span className="text-gradient">something great</span>{" "}
+          together?
+        </h2>
+
+        {/* Sub-copy */}
+        <p className="cta-reveal text-xl md:text-2xl text-white/50 font-light leading-relaxed mb-14 max-w-2xl">
+          Whether it&apos;s a high-scale backend, an AI product, or a
+          mission-critical architecture — let&apos;s make it happen.
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="cta-reveal flex flex-col sm:flex-row gap-4 items-center">
+          <a
+            href={`mailto:${EMAIL}`}
+            className="group inline-flex items-center gap-3 px-10 py-4 rounded-2xl bg-accent-primary hover:bg-accent-primary/90 text-white font-display font-bold text-lg transition-all duration-300 hover:scale-105 shadow-2xl shadow-accent-primary/30"
+          >
+            Start a Conversation
+            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/suryathakur15"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-3 px-10 py-4 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-white/70 hover:text-white font-display font-bold text-lg transition-all duration-300 hover:border-white/20"
+          >
+            View LinkedIn
+          </a>
+        </div>
+      </div>
     </section>
   );
 };

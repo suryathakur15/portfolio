@@ -14,107 +14,148 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
 
   useEffect(() => {
     if (project) {
-      gsap.to(modalRef.current, {
-        opacity: 1,
-        visibility: "visible",
-        duration: 0.4,
-        ease: "power3.out",
-      });
+      gsap.to(modalRef.current, { opacity: 1, visibility: "visible", duration: 0.4, ease: "power3.out" });
       gsap.fromTo(
         contentRef.current,
-        { scale: 0.9, y: 20, opacity: 0 },
+        { scale: 0.92, y: 24, opacity: 0 },
         { scale: 1, y: 0, opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.1 }
       );
       document.body.style.overflow = "hidden";
     } else {
-      gsap.to(modalRef.current, {
-        opacity: 0,
-        visibility: "hidden",
-        duration: 0.3,
-        ease: "power3.in",
-      });
+      gsap.to(modalRef.current, { opacity: 0, visibility: "hidden", duration: 0.3, ease: "power3.in" });
       document.body.style.overflow = "unset";
     }
   }, [project]);
 
   if (!project) return null;
 
+  const [c1, c2] = project.gradient;
+
+  // Per-project tint colours derived from gradient
+  const tintBg  = `${c1}12`;   // ~7% opacity fill
+  const tintBorder = `${c1}30`; // ~19% opacity border
+  const tintText   = c1;
+
   return (
     <div
       ref={modalRef}
-      className="fixed inset-0 z-[200] flex items-center justify-center px-4 py-12 invisible opacity-0"
+      className="fixed inset-0 z-[600] flex items-end sm:items-center justify-center px-0 sm:px-4 py-0 sm:py-8 invisible opacity-0"
     >
-      <div 
-        className="absolute inset-0 bg-obsidian/95 backdrop-blur-xl cursor-pointer"
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 backdrop-blur-2xl cursor-pointer"
+        style={{ background: `linear-gradient(135deg, ${c1}18 0%, #05050598 60%)` }}
         onClick={onClose}
-      ></div>
-      
-      <div 
-        ref={contentRef}
-        className="relative w-full max-w-5xl bg-obsidian-light border border-white/10 rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] group/modal"
-        style={{ borderImageSource: `linear-gradient(to bottom right, ${project.gradient[0]}33, ${project.gradient[1]}33)`, borderImageSlice: 1 }}
-      >
-        {/* Subtle Themed Glow */}
-        <div 
-          className="absolute inset-0 pointer-events-none opacity-20 transition-opacity group-hover/modal:opacity-30"
-          style={{ background: `radial-gradient(circle at top right, ${project.gradient[0]}22, transparent 60%)` }}
-        ></div>
+      />
 
-        {/* Project Image */}
-        <div className="w-full md:w-[45%] h-72 md:h-auto relative overflow-hidden">
+      {/* Modal card */}
+      <div
+        ref={contentRef}
+        className="relative w-full sm:max-w-5xl bg-[#0c0c0e] border overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[92vh] sm:max-h-[90vh] sm:rounded-[36px] rounded-t-[28px]"
+        style={{ borderColor: tintBorder }}
+      >
+        {/* Themed ambient glow – top-right */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: `radial-gradient(ellipse at 80% -10%, ${c1}22 0%, transparent 55%)` }}
+        />
+
+        {/* ── Left: Project Image ── */}
+        <div className="w-full md:w-[42%] h-48 sm:h-56 md:h-auto relative overflow-hidden flex-shrink-0">
           <Image
             src={project.image}
             alt={project.name}
             layout="fill"
             objectFit="cover"
-            className="transition-transform duration-1000 group-hover/modal:scale-105"
+            className="transition-transform duration-700 hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-obsidian-light via-transparent to-transparent md:hidden"></div>
+          {/* Gradient fade into content on mobile */}
+          <div
+            className="absolute inset-0 md:hidden"
+            style={{ background: `linear-gradient(to top, #0c0c0e 0%, transparent 60%)` }}
+          />
+          {/* Vertical fade on desktop */}
+          <div
+            className="absolute inset-0 hidden md:block"
+            style={{ background: `linear-gradient(to right, transparent 60%, #0c0c0e 100%)` }}
+          />
         </div>
 
-        {/* Project Details */}
-        <div className="w-full md:w-[55%] p-10 md:p-16 overflow-y-auto relative z-10 flex flex-col">
-          <button 
-            className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all group/close"
+        {/* ── Right: Content ── */}
+        <div className="w-full md:w-[58%] px-5 py-6 sm:px-8 sm:py-8 md:px-10 md:py-12 overflow-y-auto relative z-10 flex flex-col">
+
+          {/* Close button */}
+          <button
+            className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center hover:scale-110 transition-all group/close z-20"
+            style={{ background: tintBg, border: `1px solid ${tintBorder}` }}
             onClick={onClose}
+            aria-label="Close"
           >
-            <div className="relative w-6 h-6">
-              <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white rotate-45 transition-transform group-hover/close:rotate-[135deg]"></div>
-              <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white -rotate-45 transition-transform group-hover/close:rotate-[-135deg]"></div>
+            <div className="relative w-4 h-4">
+              <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-white/70 rotate-45 group-hover/close:bg-white transition-colors" />
+              <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-white/70 -rotate-45 group-hover/close:bg-white transition-colors" />
             </div>
           </button>
 
-          <div className="flex items-center gap-4 mb-6">
-             <div 
-              className="w-12 h-1.5 rounded-full"
-              style={{ background: `linear-gradient(90deg, ${project.gradient[0]}, ${project.gradient[1]})` }}
-             ></div>
-             <span className="text-white/40 font-display font-bold text-xs tracking-[0.3em] uppercase">
-               Architecture Deep Dive
-             </span>
+          {/* Eyebrow */}
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className="h-[3px] w-8 rounded-full"
+              style={{ background: `linear-gradient(90deg, ${c1}, ${c2})` }}
+            />
+            <span
+              className="text-[10px] font-black uppercase tracking-[0.25em]"
+              style={{ color: tintText }}
+            >
+              Case Study
+            </span>
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-display font-bold text-white mb-8 tracking-tighter">
+          {/* Title */}
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-black text-white tracking-tighter leading-[1.05] mb-5">
             {project.name}
           </h2>
-          
-          <div className="flex flex-wrap gap-3 mb-10">
+
+          {/* Tech chips – project-tinted */}
+          <div className="flex flex-wrap gap-2 mb-6">
             {project.tech.map((t) => (
-              <span key={t} className="px-4 py-1.5 rounded-xl border border-white/10 bg-white/[0.03] text-[11px] font-black text-white/60 uppercase tracking-tight">
+              <span
+                key={t}
+                className="px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-black uppercase tracking-tight"
+                style={{ background: tintBg, border: `1px solid ${tintBorder}`, color: tintText }}
+              >
                 {t}
               </span>
             ))}
           </div>
 
-          <div className="space-y-8 text-xl md:text-2xl opacity-80 leading-relaxed font-light text-white/90">
-            <p className="first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-left first-letter:text-accent-primary">
+          {/* Description – project-tinted background panel */}
+          <div
+            className="rounded-2xl p-5 sm:p-6 mb-6 relative overflow-hidden"
+            style={{ background: tintBg, border: `1px solid ${tintBorder}` }}
+          >
+            {/* Decorative corner accent */}
+            <div
+              className="absolute top-0 right-0 w-24 h-24 rounded-full blur-3xl opacity-30 pointer-events-none"
+              style={{ background: c1 }}
+            />
+            <p className="relative text-sm sm:text-base md:text-lg leading-relaxed font-light text-white/80">
               {project.longDescription}
             </p>
           </div>
 
-          <div className="mt-auto pt-16 flex items-center justify-between opacity-30 group-hover/modal:opacity-50 transition-opacity">
-             <div className="text-[10px] font-black uppercase tracking-[0.4em]">Proprietary Technology • {project.name}</div>
-             <div className="w-16 h-px bg-white/20"></div>
+          {/* Footer bar */}
+          <div
+            className="mt-auto flex items-center justify-between pt-5 border-t"
+            style={{ borderColor: tintBorder }}
+          >
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20">
+              {project.name} · Proprietary
+            </span>
+            <div
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ background: c1, boxShadow: `0 0 8px ${c1}` }}
+            />
           </div>
         </div>
       </div>

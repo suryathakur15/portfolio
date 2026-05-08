@@ -1,14 +1,16 @@
 import { PROJECTS, IProject } from "../../constants";
 import Image from "next/image";
-import { useEffect, useRef, useState, MutableRefObject } from "react";
+import { useEffect, useRef, MutableRefObject, Dispatch, SetStateAction } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { IDesktop } from "pages";
-import ProjectModal from "./ProjectModal";
 
-const ProjectsSection = ({ isDesktop }: IDesktop) => {
+interface ProjectsSectionProps extends IDesktop {
+  setSelectedProject: Dispatch<SetStateAction<IProject | null>>;
+}
+
+const ProjectsSection = ({ isDesktop, setSelectedProject }: ProjectsSectionProps) => {
   const sectionRef: MutableRefObject<HTMLDivElement> = useRef(null);
-  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
 
   useEffect(() => {
     const revealTl = gsap.timeline({
@@ -29,13 +31,13 @@ const ProjectsSection = ({ isDesktop }: IDesktop) => {
 
   return (
     <section
-      className="w-full relative select-none section-container py-24"
+      className="w-full relative select-none section-container py-24 md:py-32"
       id="works"
       ref={sectionRef}
     >
       <div className="flex flex-col mb-16">
         <p className="text-accent-primary font-display font-semibold tracking-widest uppercase mb-4">SELECTED WORKS</p>
-        <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
+        <h1 className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-[1.04] mb-6">
           Architecting <span className="text-gradient">Impact</span>
         </h1>
         <h2 className="text-xl opacity-70 max-w-2xl">
@@ -87,11 +89,6 @@ const ProjectsSection = ({ isDesktop }: IDesktop) => {
           </div>
         ))}
       </div>
-
-      <ProjectModal 
-        project={selectedProject} 
-        onClose={() => setSelectedProject(null)} 
-      />
     </section>
   );
 };

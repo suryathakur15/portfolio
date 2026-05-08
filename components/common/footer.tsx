@@ -1,56 +1,80 @@
-import { EMAIL, MENULINKS, SOCIAL_LINKS } from "../../constants";
 import Image from "next/image";
-import React from "react";
+import { EMAIL, SOCIAL_LINKS } from "../../constants";
 
 const Footer = () => {
-  const renderSocialLinks = (): React.ReactNode =>
-    Object.keys(SOCIAL_LINKS).map((el: keyof typeof SOCIAL_LINKS) => (
-      <a
-        href={SOCIAL_LINKS[el]}
-        key={el}
-        className="link group flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.03] border border-white/5 hover:border-accent-primary hover:bg-white/[0.08] transition-all duration-300"
-        rel="noreferrer"
-        target="_blank"
-      >
-        <Image 
-          src={`/social/${el}.svg`} 
-          alt={el} 
-          width={24} 
-          height={24} 
-          className="transition-all duration-300 brightness-0 invert opacity-60 group-hover:opacity-100 group-hover:scale-110"
-        />
-      </a>
-    ));
+  const socialKeys = Object.keys(SOCIAL_LINKS) as Array<keyof typeof SOCIAL_LINKS>;
 
   return (
-    <footer className="w-full relative py-24 overflow-hidden border-t border-white/5">
-      {/* Footer Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent-primary/5 to-accent-primary/10 -z-1"></div>
-      
-      <div className="section-container relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-12 pt-8">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-md">
-            <h2 className="text-3xl font-display font-bold text-white mb-4">
-              Let&apos;s Build the <span className="text-gradient">Future.</span>
+    <footer className="w-full relative overflow-hidden border-t border-white/5">
+      {/* Subtle ambient glow */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent-primary/[0.04] to-accent-secondary/[0.06] pointer-events-none" />
+
+      <div className="section-container py-20 md:py-28 relative z-10">
+        {/* Main CTA Row */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-14 mb-16 md:mb-20">
+
+          {/* Left — headline + email */}
+          <div className="flex flex-col items-start max-w-lg">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white tracking-tighter leading-[1.08] mb-4">
+              Let&apos;s build something{" "}
+              <span className="text-gradient">Legendary.</span>
             </h2>
-            <p className="text-white/50 font-medium leading-relaxed mb-8">
-              Open for architectural consultations, lead engineering roles, and system scaling challenges.
+            <p className="text-base md:text-lg text-white/50 font-light mb-8 leading-relaxed">
+              Open for collaborations, architecture consulting,&nbsp;
+              and lead engineering roles.
             </p>
-            <div className="flex gap-4">
-              {renderSocialLinks()}
-            </div>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="group inline-flex items-center gap-3 font-display font-bold text-accent-primary hover:text-white transition-colors duration-300 text-lg sm:text-xl md:text-2xl"
+            >
+              <span className="underline underline-offset-4 decoration-accent-primary/30 group-hover:decoration-white/40 break-all">
+                {EMAIL}
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
           </div>
 
-          <div className="flex flex-col items-center md:items-end text-center md:text-right">
-             <a 
-              href={`mailto:${EMAIL}`} 
-              className="text-2xl md:text-4xl font-display font-black text-white hover:text-accent-primary transition-colors mb-6 block tracking-tight"
-             >
-              {EMAIL}
-             </a>
-             <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/30">
-               © {new Date().getFullYear()} Surya Thakur • Lead Software Engineer
-             </p>
+          {/* Right — social icons */}
+          <div className="flex flex-wrap gap-3 md:gap-4">
+            {socialKeys.map((el) => (
+              <a
+                href={SOCIAL_LINKS[el]}
+                key={el}
+                aria-label={el}
+                className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center hover:scale-110 hover:border-accent-primary/60 hover:bg-accent-primary/10 transition-all duration-300 group"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <Image
+                  src={`/social/${el}.svg`}
+                  alt={el}
+                  width={20}
+                  height={20}
+                  className="invert opacity-50 group-hover:opacity-100 transition-opacity"
+                />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8" />
+
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-bold uppercase tracking-[0.25em] text-white/25">
+          <span>© {new Date().getFullYear()} Surya Thakur · Lead Software Engineer</span>
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.9)]" />
+            <span>All systems operational</span>
           </div>
         </div>
       </div>

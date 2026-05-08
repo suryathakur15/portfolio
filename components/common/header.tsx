@@ -9,8 +9,8 @@ const Header = ({
   setmenuVisible: Dispatch<SetStateAction<boolean>>;
 }) => {
   return (
-    <header className="w-full fixed top-0 py-2 select-none z-[500] transition-all duration-300 px-4">
-      <div className="flex justify-between items-center max-w-4xl mx-auto bg-obsidian/60 backdrop-blur-2xl rounded-full mt-4 py-2 px-6 shadow-2xl shadow-black/80 border border-white/10">
+    <header className="w-full fixed top-0 py-2 select-none z-[500] transition-all duration-300 px-3 md:px-0">
+      <div className="flex justify-between items-center w-full max-w-[92%] md:max-w-4xl mx-auto bg-obsidian/60 backdrop-blur-2xl rounded-full mt-4 py-2 px-4 sm:px-8 shadow-2xl shadow-black/80 border border-white/10">
         <a href="#home" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-accent-primary to-accent-secondary flex items-center justify-center font-display font-bold text-xs text-white">
             S

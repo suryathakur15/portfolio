@@ -1,121 +1,204 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { gsap, Linear } from "gsap";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-
 import { MENULINKS, SKILLS } from "../../constants";
 
-const SKILL_STYLES = {
-  SECTION:
-    "w-full relative select-none mb-24 section-container py-12 flex flex-col justify-center",
-  SKILL_TITLE: "section-title-sm mb-4 seq",
-};
+/* ─────────────────────────────────────────────
+   Data
+───────────────────────────────────────────── */
+const STATS = [
+  { value: "7+", label: "Years of experience" },
+  { value: "20M+", label: "Users scaled" },
+  { value: "40+", label: "Technologies mastered" },
+  { value: "5", label: "Products shipped" },
+];
 
+const TABS = [
+  { key: "core",     label: "Backend",  skills: SKILLS.core },
+  { key: "frontend", label: "Frontend", skills: SKILLS.frontend },
+  { key: "cloud",    label: "Cloud / DevOps", skills: SKILLS.cloud },
+  { key: "other",    label: "Tools",    skills: [...SKILLS.userInterface, ...SKILLS.other] },
+] as const;
+
+const PRINCIPLES = [
+  {
+    icon: "🚀",
+    title: "Innovation First",
+    sub: "Always exploring new horizons",
+    gradient: "from-amber-400/20 to-orange-500/5",
+    border: "border-amber-400/20",
+    glow: "group-hover:shadow-amber-400/10",
+  },
+  {
+    icon: "🛠️",
+    title: "Scalable Architecture",
+    sub: "Built to handle the future",
+    gradient: "from-indigo-400/20 to-blue-500/5",
+    border: "border-indigo-400/20",
+    glow: "group-hover:shadow-indigo-400/10",
+  },
+  {
+    icon: "💎",
+    title: "Aesthetic Design",
+    sub: "Beauty meets functionality",
+    gradient: "from-purple-400/20 to-pink-500/5",
+    border: "border-purple-400/20",
+    glow: "group-hover:shadow-purple-400/10",
+  },
+];
+
+/* ─────────────────────────────────────────────
+   Sub-components
+───────────────────────────────────────────── */
+const SkillChip = ({ skill }: { skill: string }) => (
+  <div className="flex flex-col items-center gap-2 group/chip">
+    <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/[0.03] border border-white/8 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover/chip:border-accent-primary/40 group-hover/chip:bg-accent-primary/5 group-hover/chip:scale-110">
+      {/* Letter fallback */}
+      <span className="absolute inset-0 flex items-center justify-center font-display font-black text-sm text-white/10 pointer-events-none uppercase select-none">
+        {skill.charAt(0)}
+      </span>
+      <Image
+        src={`/skills/${skill.toLowerCase()}.svg`}
+        alt={skill}
+        width={30}
+        height={30}
+        className="relative z-10 grayscale opacity-60 object-contain transition-all duration-300 group-hover/chip:grayscale-0 group-hover/chip:opacity-100"
+        onError={(e) => {
+          (e.target as HTMLImageElement).style.display = "none";
+        }}
+      />
+    </div>
+    <span className="text-[9px] uppercase font-bold tracking-widest text-white/30 group-hover/chip:text-white/80 transition-colors text-center truncate w-full px-0.5">
+      {skill}
+    </span>
+  </div>
+);
+
+/* ─────────────────────────────────────────────
+   Main Section
+───────────────────────────────────────────── */
 const SkillsSection = () => {
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
-
-  const initRevealAnimation = (
-    targetSection: MutableRefObject<HTMLDivElement>
-  ): ScrollTrigger => {
-    const revealTl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    revealTl.from(
-      targetSection.current.querySelectorAll(".seq"),
-      { opacity: 0, y: 30, duration: 0.8, stagger: 0.2 },
-      "<"
-    );
-
-    return ScrollTrigger.create({
-      trigger: targetSection.current,
-      start: "top 80%",
-      animation: revealTl,
-    });
-  };
+  const [activeTab, setActiveTab] = useState<(typeof TABS)[number]["key"]>("core");
 
   useEffect(() => {
-    const revealAnimationRef = initRevealAnimation(targetSection);
-    return () => revealAnimationRef.kill();
-  }, [targetSection]);
+    gsap.registerPlugin(ScrollTrigger);
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: targetSection.current, start: "top 80%" },
+    });
+    tl.from(targetSection.current.querySelectorAll(".seq"), {
+      opacity: 0,
+      y: 28,
+      duration: 0.75,
+      stagger: 0.12,
+      ease: "power3.out",
+    });
+  }, []);
 
-  const renderSectionTitle = (): React.ReactNode => (
-    <div className="flex flex-col mb-16">
-      <p className="text-accent-primary font-display font-semibold tracking-widest uppercase mb-4 seq">TECHNICAL STACK</p>
-      <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 seq">
-        Mastering the <span className="text-gradient">Digital Realm</span>
-      </h1>
-      <p className="text-xl opacity-70 max-w-2xl seq">
-        From architecting scalable backends to crafting pixel-perfect interfaces, 
-        I leverage a diverse set of technologies to build high-performance systems.
-      </p>
-    </div>
-  );
+  const currentSkills = TABS.find((t) => t.key === activeTab)?.skills ?? TABS[0].skills;
 
-  const SkillCard = ({ title, skills, className = "" }: { title: string, skills: string[], className?: string }) => (
-    <div className={`glass-card group overflow-hidden relative ${className} seq`}>
-      <div className="absolute -right-10 -top-10 w-40 h-40 bg-accent-primary/5 rounded-full blur-3xl transition-all duration-500 group-hover:bg-accent-primary/20"></div>
-      <h3 className="text-xl font-display font-bold mb-6 text-white/90">{title}</h3>
-      <div className="flex flex-wrap gap-4">
-        {skills.map((skill) => (
-          <div key={skill} className="flex flex-col items-center group/skill w-20 md:w-24">
-            <div className="w-12 h-12 md:w-16 md:h-16 glass rounded-xl flex items-center justify-center p-3 transition-all duration-300 group-hover/skill:border-accent-primary/50 group-hover/skill:scale-110 relative overflow-hidden">
-               {/* Icon Fallback Logic */}
-               <div className="absolute inset-0 flex items-center justify-center font-display font-bold text-xs text-white/20 uppercase pointer-events-none">
-                  {skill.charAt(0)}
-               </div>
-              <Image
-                src={`/skills/${skill.toLowerCase()}.svg`}
-                alt={skill}
-                width={40}
-                height={40}
-                onError={(e) => {
-                  (e.target as any).style.display = 'none';
-                }}
-                className="relative z-10 grayscale opacity-70 transition-all duration-300 group-hover/skill:grayscale-0 group-hover/skill:opacity-100 object-contain"
-              />
-            </div>
-            <p className="text-[9px] uppercase font-bold tracking-tighter mt-2 opacity-40 group-hover/skill:opacity-100 transition-opacity duration-300 text-center truncate w-full px-1">{skill}</p>
+  return (
+    <section
+      id={MENULINKS[2].ref}
+      ref={targetSection}
+      className="section-container py-24 md:py-32 relative overflow-hidden"
+    >
+      {/* Background orb */}
+      <div className="absolute -top-40 right-0 w-[600px] h-[600px] bg-accent-secondary/5 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* ── Header ── */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 seq">
+        <div>
+          <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-3">
+            Technical Stack
+          </p>
+          <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-[1.04]">
+            Engineering{" "}
+            <span className="text-gradient">Digital Excellence</span>
+          </h2>
+        </div>
+        <p className="text-white/50 text-lg font-light max-w-sm md:text-right leading-relaxed">
+          A curated toolkit built over 7+ years of shipping systems at scale.
+        </p>
+      </div>
+
+      {/* ── Stats Row ── */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 seq">
+        {STATS.map((s) => (
+          <div
+            key={s.label}
+            className="glass-card py-7 px-6 flex flex-col items-center text-center group hover:border-accent-primary/30 transition-all duration-300"
+          >
+            <span className="text-4xl md:text-5xl font-display font-black text-gradient mb-2">
+              {s.value}
+            </span>
+            <span className="text-[11px] uppercase font-bold tracking-widest text-white/35 group-hover:text-white/60 transition-colors">
+              {s.label}
+            </span>
           </div>
         ))}
       </div>
-    </div>
-  );
 
-  return (
-    <section 
-      className="section-container relative" 
-      id={MENULINKS[2].ref} 
-      ref={targetSection}
-    >
-      {renderSectionTitle()}
-      
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        {/* Backend - Main Card */}
-        <SkillCard 
-          title="Backend Engineering" 
-          skills={SKILLS.core} 
-          className="md:col-span-8"
-        />
-        
-        {/* Frontend - Side Card */}
-        <SkillCard 
-          title="Frontend Development" 
-          skills={SKILLS.frontend} 
-          className="md:col-span-4"
-        />
-        
-        {/* Cloud - Bottom Left */}
-        <SkillCard 
-          title="Cloud & DevOps" 
-          skills={SKILLS.cloud} 
-          className="md:col-span-7"
-        />
-        
-        {/* Design & Others - Bottom Right */}
-        <SkillCard 
-          title="UI/UX & Design" 
-          skills={[...SKILLS.userInterface, ...SKILLS.other]} 
-          className="md:col-span-5"
-        />
+      {/* ── Principles Strip ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-16 seq">
+        {PRINCIPLES.map((p) => (
+          <div
+            key={p.title}
+            className={`group relative glass-card p-7 flex items-center gap-5 border ${p.border} bg-gradient-to-br ${p.gradient} hover:scale-[1.02] hover:shadow-xl ${p.glow} transition-all duration-500 overflow-hidden`}
+          >
+            <div className="text-4xl shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+              {p.icon}
+            </div>
+            <div className="min-w-0">
+              <p className="font-display font-black text-white text-lg leading-tight mb-1 truncate">{p.title}</p>
+              <p className="text-white/45 text-sm font-light">{p.sub}</p>
+            </div>
+            {/* Shimmer line */}
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </div>
+        ))}
       </div>
+
+      {/* ── Tab Switcher ── */}
+      <div className="mb-10 seq">
+        {/* Mobile: full-width vertical stack | Desktop: inline pill row */}
+        <div className="flex flex-col sm:flex-row sm:inline-flex bg-white/[0.03] border border-white/[0.08] rounded-2xl p-1.5 gap-1 w-full sm:w-auto">
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={`w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-xl font-display font-bold text-sm transition-all duration-300 text-left sm:text-center ${
+                activeTab === tab.key
+                  ? "bg-accent-primary text-white shadow-lg shadow-accent-primary/30"
+                  : "text-white/40 hover:text-white/70 hover:bg-white/5"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Skills Grid ── */}
+      <div
+        key={activeTab}
+        className="glass-card p-6 md:p-10 seq"
+        style={{ animation: "fadeSlideIn 0.35s ease" }}
+      >
+        <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-10 gap-x-3 gap-y-8">
+          {currentSkills.map((skill) => (
+            <SkillChip key={skill} skill={skill} />
+          ))}
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </section>
   );
 };

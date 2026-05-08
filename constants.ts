@@ -133,16 +133,6 @@ export const PROJECTS: Array<IProject> = [
     url: "",
     tech: ["React", "Typescript", "Nest Js", "Fastify", "AWS", "MySQL"],
   },
-  {
-    name: "DataRabbit",
-    image: "/projects/datarabbit.png",
-    blurImage: "/projects/blur/datarabbit.png",
-    description: "A governed data exchange marketplace designed for scalable research use at IIT Delhi.",
-    longDescription: "Leading the architecture of the DataRabbit platform, a governed data exchange marketplace designed specifically for scalable research use. Driving the technical vision to ensure these projects are built for long-term scalability and structured for open-source community impact while mentoring IIT Delhi students.",
-    gradient: ["#F78419", "#E11E2E"],
-    url: "",
-    tech: ["React", "Express", "AWS", "Go", "Shell", "Scripting", "Compliance"],
-  },
 ];
 
 export const TIMELINE: Array<TimelineNodeV2> = [
