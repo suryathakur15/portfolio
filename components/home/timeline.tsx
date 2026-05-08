@@ -97,7 +97,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
         <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-4 seq">
           Milestones
         </p>
-        <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-[1.04] mb-6 seq">
+        <h2 className="text-6xl md:text-7xl font-display font-black tracking-tighter leading-[1.04] mb-6 seq">
           Engineering <span className="text-gradient">Evolution</span>
         </h2>
         <div className="w-20 h-[3px] bg-gradient-to-r from-transparent via-accent-primary to-transparent mb-6 seq" />

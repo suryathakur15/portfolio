@@ -102,13 +102,13 @@ const HeroSection = React.memo(() => {
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-amber-500">Currently Architecting Neary.in</span>
             </div>
 
-            <h2 className="text-sm font-display font-semibold text-accent-primary mb-6 seq uppercase tracking-[0.35em]">
+            <h2 className="text-xl md:text-2xl font-display font-semibold text-accent-primary mb-6 seq uppercase tracking-[0.4em]">
               System Architect &amp; Lead Engineer
             </h2>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-display font-black seq leading-[1.04] mb-8 tracking-tighter">
+            <h1 className="text-6xl md:text-8xl font-display font-bold seq leading-[1.05] mb-8 tracking-tight">
               Architecting <br />
-              <span className="text-gradient font-accent text-6xl sm:text-7xl md:text-8xl lowercase">the Future.</span>
+              <span className="text-gradient font-accent text-7xl md:text-9xl lowercase">the Future.</span>
             </h1>
 
             <p className="text-sm sm:text-base md:text-xl font-medium text-white/50 mb-10 max-w-2xl seq tracking-wide min-h-[2rem]">

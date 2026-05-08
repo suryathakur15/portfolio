@@ -37,10 +37,10 @@ const ProjectsSection = ({ isDesktop, setSelectedProject }: ProjectsSectionProps
     >
       <div className="flex flex-col mb-16">
         <p className="text-accent-primary font-display font-semibold tracking-widest uppercase mb-4">SELECTED WORKS</p>
-        <h1 className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-[1.04] mb-6">
+        <h1 className="text-6xl md:text-7xl font-display font-black tracking-tighter leading-[1.04] mb-6">
           Architecting <span className="text-gradient">Impact</span>
         </h1>
-        <h2 className="text-xl opacity-70 max-w-2xl">
+        <h2 className="text-2xl opacity-70 max-w-2xl">
           From high-frequency sports engines to AI-driven social platforms. 
           A curated selection of systems I've built and scaled.
         </h2>

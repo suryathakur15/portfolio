@@ -36,11 +36,11 @@ const AboutSection = () => {
           <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-4">
             Who I am
           </p>
-          <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-[1.04] mb-8">
+          <h2 className="text-6xl md:text-7xl font-display font-black tracking-tighter leading-[1.04] mb-8">
             Building systems <br />
             <span className="text-gradient">that matter.</span>
           </h2>
-          <div className="space-y-5 text-lg text-white/65 font-light leading-relaxed">
+          <div className="space-y-5 text-xl text-white/65 font-light leading-relaxed">
             <p>
               I&apos;m a Lead Software Engineer obsessed with distributed systems,
               real-time architectures, and the craft of turning ambitious ideas

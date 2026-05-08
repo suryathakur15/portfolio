@@ -113,12 +113,12 @@ const SkillsSection = () => {
           <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-3">
             Technical Stack
           </p>
-          <h2 className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-[1.04]">
+          <h2 className="text-6xl md:text-7xl font-display font-black tracking-tighter leading-[1.04]">
             Engineering{" "}
             <span className="text-gradient">Digital Excellence</span>
           </h2>
         </div>
-        <p className="text-white/50 text-lg font-light max-w-sm md:text-right leading-relaxed">
+        <p className="text-white/50 text-xl font-light max-w-sm md:text-right leading-relaxed">
           A curated toolkit built over 7+ years of shipping systems at scale.
         </p>
       </div>
