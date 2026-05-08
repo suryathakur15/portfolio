@@ -54,7 +54,7 @@ const HeroSection = React.memo(() => {
       <a
         href={SOCIAL_LINKS[el]}
         key={el}
-        className="relative w-12 h-12 flex items-center justify-center rounded-full bg-white/10 border border-white/20 hover:border-accent-primary/50 hover:bg-accent-primary/20 transition-all duration-300 group mr-4"
+        className="relative w-12 h-12 flex flex-shrink-0 items-center justify-center rounded-full bg-white/10 border border-white/20 hover:border-accent-primary/50 hover:bg-accent-primary/20 transition-all duration-300 group mr-4"
         rel="noreferrer"
         target="_blank"
       >
@@ -109,9 +109,9 @@ const HeroSection = React.memo(() => {
               System Architect &amp; Lead Engineer
             </h2>
 
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-bold seq leading-tight mb-8 tracking-tight">
+            <h1 className="text-3xl sm:text-6xl md:text-8xl font-display font-bold seq leading-tight mb-8 tracking-tight break-words">
               Architecting <br />
-              <span className="text-gradient font-accent text-5xl sm:text-7xl md:text-9xl lowercase">
+              <span className="text-gradient font-accent text-4xl sm:text-7xl md:text-9xl lowercase">
                 the Future.
               </span>
             </h1>
@@ -130,7 +130,7 @@ const HeroSection = React.memo(() => {
                 name="Let's Connect"
                 href={SOCIAL_LINKS.linkedin}
                 otherProps={{ target: "_blank", rel: "noreferrer" }}
-                classes="px-8 py-3.5 text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap w-full sm:w-auto"
+                classes="px-6 py-3 text-sm sm:px-8 sm:py-3.5 sm:text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap w-full sm:w-auto"
               />
               <div className="flex items-center gap-4 overflow-x-auto flex-nowrap no-scrollbar py-3 px-1 w-full sm:w-auto justify-center md:justify-start -mx-4 sm:mx-0 px-4 sm:px-0 touch-pan-x">
                 {renderSocialLinks()}

@@ -125,13 +125,13 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
                 {/* ── Mobile layout ── */}
                 <div className="flex md:hidden items-start pb-12">
                   {/* Dot */}
-                  <div className="relative flex-shrink-0 w-8 flex justify-center pt-2">
+                  <div className="relative flex-shrink-0 w-10 flex justify-center pt-2">
                     <div
                       className="w-4 h-4 rounded-full border-2 z-20 transition-all duration-400 relative"
                       style={{
                         background: "#0c0c0e",
                         borderColor: accent.dot,
-                        boxShadow: `0 0-12px ${accent.glow}`,
+                        boxShadow: `0 0 12px ${accent.glow}`,
                       }}
                     >
                       <div
