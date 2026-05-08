@@ -111,7 +111,9 @@ const HeroSection = React.memo(() => {
 
             <h1 className="text-6xl md:text-8xl font-display font-bold seq leading-[1.05] mb-8 tracking-tight">
               Architecting <br />
-              <span className="text-gradient">the Future.</span>
+              <span className="text-gradient font-accent text-7xl md:text-9xl lowercase">
+                the Future.
+              </span>
             </h1>
 
             <p className="text-sm sm:text-base md:text-xl font-medium text-white/50 mb-10 max-w-2xl seq tracking-wide min-h-[2rem]">

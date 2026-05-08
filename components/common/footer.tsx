@@ -17,7 +17,9 @@ const Footer = () => {
           <div className="flex flex-col items-start max-w-lg">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white tracking-tighter leading-[1.08] mb-4">
               Let&apos;s build something{" "}
-              <span className="text-gradient font-accent text-4xl sm:text-5xl md:text-6xl lowercase">Legendary.</span>
+              <span className="text-gradient font-accent text-4xl sm:text-5xl md:text-6xl lowercase">
+                Legendary.
+              </span>
             </h2>
             <p className="text-base md:text-lg text-white/50 font-light mb-8 leading-relaxed">
               Open for collaborations, architecture consulting,&nbsp;
@@ -71,7 +73,10 @@ const Footer = () => {
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-bold uppercase tracking-[0.25em] text-white/25">
-          <span>© {new Date().getFullYear()} Surya Thakur · Lead Software Engineer</span>
+          <div className="flex flex-col items-center sm:items-start gap-1">
+            <span>© {new Date().getFullYear()} Surya Thakur · Lead Software Engineer</span>
+            <span className="font-accent text-lg text-accent-primary lowercase opacity-80 mt-1">Handcrafted by Surya</span>
+          </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.9)]" />
             <span>All systems operational</span>

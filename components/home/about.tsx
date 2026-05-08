@@ -32,7 +32,7 @@ const AboutSection = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         {/* ── Left: text ── */}
         <div className="seq">
-          <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-4">
+          <p className="text-accent-primary font-accent text-2xl mb-2">
             Who I am
           </p>
           <h2 className="text-4xl md:text-6xl font-display font-bold mb-8 leading-tight">
