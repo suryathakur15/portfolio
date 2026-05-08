@@ -23,7 +23,7 @@ const HeroSection = React.memo(() => {
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
 
   const initTypeAnimation = (
-    typedSpanElement: MutableRefObject<HTMLSpanElement>
+    typedSpanElement: MutableRefObject<HTMLSpanElement>,
   ): Typed => {
     return new Typed(typedSpanElement.current, {
       strings: TYPED_STRINGS,
@@ -36,7 +36,7 @@ const HeroSection = React.memo(() => {
 
   useEffect(() => {
     const typed = initTypeAnimation(typedSpanElement);
-    
+
     gsap.to(targetSection.current, { opacity: 1, duration: 1 });
     gsap.from(targetSection.current.querySelectorAll(".seq"), {
       opacity: 0,
@@ -54,16 +54,16 @@ const HeroSection = React.memo(() => {
       <a
         href={SOCIAL_LINKS[el]}
         key={el}
-        className="relative w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:border-accent-primary/50 hover:bg-accent-primary/10 transition-all duration-300 group mr-4"
+        className="relative w-12 h-12 flex items-center justify-center rounded-full bg-white/10 border border-white/20 hover:border-accent-primary/50 hover:bg-accent-primary/20 transition-all duration-300 group mr-4"
         rel="noreferrer"
         target="_blank"
       >
-        <Image 
-          src={`/social/${el}.svg`} 
-          alt={el} 
-          width={20} 
-          height={20} 
-          className="invert opacity-70 group-hover:opacity-100 transition-all" 
+        <Image
+          src={`/social/${el}.svg`}
+          alt={el}
+          width={22}
+          height={22}
+          className="invert brightness-[2] opacity-80 group-hover:opacity-100 transition-all"
         />
       </a>
     ));
@@ -87,7 +87,8 @@ const HeroSection = React.memo(() => {
         <div
           className="absolute inset-0 opacity-[0.06]"
           style={{
-            backgroundImage: "radial-gradient(circle, white 1.5px, transparent 1.5px)",
+            backgroundImage:
+              "radial-gradient(circle, white 1.5px, transparent 1.5px)",
             backgroundSize: "56px 56px",
           }}
         />
@@ -99,7 +100,9 @@ const HeroSection = React.memo(() => {
           <div className="flex-1 text-center md:text-left mt-12">
             <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-amber-500/30 bg-amber-500/10 mb-10 seq shadow-lg shadow-amber-500/10">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shadow-[0_0_10px_rgba(245,158,11,1)]" />
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-amber-500">Currently Architecting Neary.in</span>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-amber-500">
+                Currently Architecting Neary.in
+              </span>
             </div>
 
             <h2 className="text-xl md:text-2xl font-display font-semibold text-accent-primary mb-6 seq uppercase tracking-[0.4em]">
@@ -108,21 +111,24 @@ const HeroSection = React.memo(() => {
 
             <h1 className="text-6xl md:text-8xl font-display font-bold seq leading-[1.05] mb-8 tracking-tight">
               Architecting <br />
-              <span className="text-gradient font-accent text-7xl md:text-9xl lowercase">the Future.</span>
+              <span className="text-gradient">the Future.</span>
             </h1>
 
             <p className="text-sm sm:text-base md:text-xl font-medium text-white/50 mb-10 max-w-2xl seq tracking-wide min-h-[2rem]">
               Specializing in{" "}
-              <span className="text-accent-primary font-bold whitespace-nowrap" ref={typedSpanElement} />
+              <span
+                className="text-accent-primary font-bold whitespace-nowrap"
+                ref={typedSpanElement}
+              />
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-8 seq mb-16">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 seq mb-16">
               <Button
                 type={ButtonTypes.PRIMARY}
                 name="Let's Connect"
                 href={SOCIAL_LINKS.linkedin}
                 otherProps={{ target: "_blank", rel: "noreferrer" }}
-                classes="px-10 py-4 text-lg rounded-2xl shadow-2xl shadow-accent-primary/30 hover:scale-105 transition-all duration-300 font-black tracking-tight relative overflow-hidden group/btn"
+                classes="px-8 py-3.5 text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight"
               />
               <div className="flex items-center">
                 {renderSocialLinks()}
@@ -150,8 +156,12 @@ const HeroSection = React.memo(() => {
                 </div>
                 <div className="mt-auto pt-6 border-t border-white/15 flex justify-between items-center">
                   <div>
-                    <div className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-1">Distributed Systems</div>
-                    <div className="text-sm font-bold text-white/90">AI Orchestration</div>
+                    <div className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-1">
+                      Distributed Systems
+                    </div>
+                    <div className="text-sm font-bold text-white/90">
+                      AI Orchestration
+                    </div>
                   </div>
                   <div className="px-3 py-1.5 rounded-lg bg-accent-primary/20 text-[10px] font-black text-accent-primary uppercase tracking-tight border border-accent-primary/30 shadow-lg shadow-accent-primary/10">
                     Scale: 20M+
@@ -168,8 +178,12 @@ const HeroSection = React.memo(() => {
 
       <style jsx>{`
         @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
         .animate-spin-slow {
           animation: spin-slow 30s linear infinite;

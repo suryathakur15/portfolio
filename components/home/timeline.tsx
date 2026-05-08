@@ -19,48 +19,48 @@ import { IDesktop } from "pages";
 const CARD_ACCENTS = [
   {
     // IIT Delhi — amber/gold (leadership / mentorship)
-    dot:    "#F59E0B",
-    fill:   "rgba(245,158,11,0.06)",
+    dot: "#F59E0B",
+    fill: "rgba(245,158,11,0.06)",
     border: "rgba(245,158,11,0.25)",
-    glow:   "rgba(245,158,11,0.15)",
-    text:   "#FCD34D",
-    label:  "rgba(245,158,11,0.7)",
+    glow: "rgba(245,158,11,0.15)",
+    text: "#FCD34D",
+    label: "rgba(245,158,11,0.7)",
   },
   {
     // GoDaddy — emerald (enterprise / fintech)
-    dot:    "#10B981",
-    fill:   "rgba(16,185,129,0.06)",
+    dot: "#10B981",
+    fill: "rgba(16,185,129,0.06)",
     border: "rgba(16,185,129,0.25)",
-    glow:   "rgba(16,185,129,0.15)",
-    text:   "#6EE7B7",
-    label:  "rgba(16,185,129,0.7)",
+    glow: "rgba(16,185,129,0.15)",
+    text: "#6EE7B7",
+    label: "rgba(16,185,129,0.7)",
   },
   {
     // Probo — electric blue (high-frequency / sports)
-    dot:    "#3B82F6",
-    fill:   "rgba(59,130,246,0.06)",
+    dot: "#3B82F6",
+    fill: "rgba(59,130,246,0.06)",
     border: "rgba(59,130,246,0.25)",
-    glow:   "rgba(59,130,246,0.15)",
-    text:   "#93C5FD",
-    label:  "rgba(59,130,246,0.7)",
+    glow: "rgba(59,130,246,0.15)",
+    text: "#93C5FD",
+    label: "rgba(59,130,246,0.7)",
   },
   {
     // Merkle II — violet (data / analytics)
-    dot:    "#8B5CF6",
-    fill:   "rgba(139,92,246,0.06)",
+    dot: "#8B5CF6",
+    fill: "rgba(139,92,246,0.06)",
     border: "rgba(139,92,246,0.25)",
-    glow:   "rgba(139,92,246,0.15)",
-    text:   "#C4B5FD",
-    label:  "rgba(139,92,246,0.7)",
+    glow: "rgba(139,92,246,0.15)",
+    text: "#C4B5FD",
+    label: "rgba(139,92,246,0.7)",
   },
   {
     // Merkle I — rose (first role / origin)
-    dot:    "#F43F5E",
-    fill:   "rgba(244,63,94,0.06)",
+    dot: "#F43F5E",
+    fill: "rgba(244,63,94,0.06)",
     border: "rgba(244,63,94,0.25)",
-    glow:   "rgba(244,63,94,0.15)",
-    text:   "#FDA4AF",
-    label:  "rgba(244,63,94,0.7)",
+    glow: "rgba(244,63,94,0.15)",
+    text: "#FDA4AF",
+    label: "rgba(244,63,94,0.7)",
   },
 ];
 
@@ -80,7 +80,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
   }, []);
 
   const checkpoints = TIMELINE.filter(
-    (item): item is CheckpointNode => item.type === NodeTypes.CHECKPOINT
+    (item): item is CheckpointNode => item.type === NodeTypes.CHECKPOINT,
   );
 
   return (
@@ -97,12 +97,13 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
         <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-4 seq">
           Milestones
         </p>
-        <h2 className="text-6xl md:text-7xl font-display font-black tracking-tighter leading-[1.04] mb-6 seq">
+        <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 seq leading-tight">
           Engineering <span className="text-gradient">Evolution</span>
         </h2>
         <div className="w-20 h-[3px] bg-gradient-to-r from-transparent via-accent-primary to-transparent mb-6 seq" />
         <p className="text-lg text-white/50 font-light max-w-xl seq">
-          A journey through architectural challenges, leadership, and system scaling.
+          A journey through architectural challenges, leadership, and system
+          scaling.
         </p>
       </div>
 
@@ -121,7 +122,6 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
 
             return (
               <div key={idx} className="relative group seq">
-
                 {/* ── Mobile layout ── */}
                 <div className="flex md:hidden items-start pb-12">
                   {/* Dot */}
@@ -163,7 +163,9 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
                       {/* Shimmer line */}
                       <div
                         className="absolute top-0 left-0 w-full h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-                        style={{ background: `linear-gradient(90deg, transparent, ${accent.dot}, transparent)` }}
+                        style={{
+                          background: `linear-gradient(90deg, transparent, ${accent.dot}, transparent)`,
+                        }}
                       />
 
                       <div className="relative z-10">
@@ -173,9 +175,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
                         >
                           {item.subtitle}
                         </span>
-                        <h3
-                          className="text-xl font-display font-bold text-white/80 leading-snug transition-colors duration-300 group-hover:text-white"
-                        >
+                        <h3 className="text-xl font-display font-bold text-white/80 leading-snug transition-colors duration-300 group-hover:text-white">
                           {item.title}
                         </h3>
                       </div>
@@ -184,8 +184,9 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
                 </div>
 
                 {/* ── Desktop layout ── */}
-                <div className={`hidden md:flex items-center mb-20 ${isLeft ? "" : "flex-row-reverse"}`}>
-
+                <div
+                  className={`hidden md:flex items-center mb-20 ${isLeft ? "" : "flex-row-reverse"}`}
+                >
                   {/* Card side */}
                   <div className={`w-[46%] ${isLeft ? "pr-14" : "pl-14"}`}>
                     <div
@@ -208,7 +209,9 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
                       {/* Top shimmer */}
                       <div
                         className="absolute top-0 left-0 w-full h-[2px] -translate-x-full group-hover:translate-x-full transition-transform duration-[900ms] rounded-t-2xl"
-                        style={{ background: `linear-gradient(90deg, transparent, ${accent.dot}, transparent)` }}
+                        style={{
+                          background: `linear-gradient(90deg, transparent, ${accent.dot}, transparent)`,
+                        }}
                       />
                       {/* Corner glow */}
                       <div
@@ -216,16 +219,16 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
                         style={{ background: accent.glow }}
                       />
 
-                      <div className={`relative z-10 ${isLeft ? "text-right" : "text-left"}`}>
+                      <div
+                        className={`relative z-10 ${isLeft ? "text-right" : "text-left"}`}
+                      >
                         <span
                           className="text-xs font-black uppercase tracking-[0.25em] mb-4 block transition-colors duration-300"
                           style={{ color: accent.label }}
                         >
                           {item.subtitle}
                         </span>
-                        <h3
-                          className="text-2xl lg:text-3xl font-display font-bold text-white/75 leading-tight transition-colors duration-300 group-hover:text-white"
-                        >
+                        <h3 className="text-2xl lg:text-3xl font-display font-bold text-white/75 leading-tight transition-colors duration-300 group-hover:text-white">
                           {item.title}
                         </h3>
                       </div>
@@ -250,7 +253,9 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
                   </div>
 
                   {/* Year ghost */}
-                  <div className={`w-[46%] flex items-center ${isLeft ? "justify-start pl-6" : "justify-end pr-6"}`}>
+                  <div
+                    className={`w-[46%] flex items-center ${isLeft ? "justify-start pl-6" : "justify-end pr-6"}`}
+                  >
                     <span
                       className="font-display font-black text-[7rem] lg:text-[9rem] leading-none opacity-0 group-hover:opacity-[0.12] pointer-events-none select-none transition-all duration-700"
                       style={{ color: accent.dot }}

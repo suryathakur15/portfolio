@@ -3,10 +3,10 @@ import React, { MutableRefObject, useEffect, useRef } from "react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 const HIGHLIGHTS = [
-  { value: "7+",    label: "Years shipping production systems" },
-  { value: "20M+",  label: "Users on platforms I've built" },
+  { value: "7+", label: "Years shipping production systems" },
+  { value: "20M+", label: "Users on platforms I've built" },
   { value: "100K+", label: "Req/min sustained throughput" },
-  { value: "5",     label: "High-impact products shipped" },
+  { value: "5", label: "High-impact products shipped" },
 ];
 
 const AboutSection = () => {
@@ -30,28 +30,26 @@ const AboutSection = () => {
       ref={targetSection}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-
         {/* ── Left: text ── */}
         <div className="seq">
           <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-4">
             Who I am
           </p>
-          <h2 className="text-6xl md:text-7xl font-display font-black tracking-tighter leading-[1.04] mb-8">
+          <h2 className="text-4xl md:text-6xl font-display font-bold mb-8 leading-tight">
             Building systems <br />
             <span className="text-gradient">that matter.</span>
           </h2>
-          <div className="space-y-5 text-xl text-white/65 font-light leading-relaxed">
+          <div className="space-y-6 text-xl opacity-80 leading-relaxed">
             <p>
-              I&apos;m a Lead Software Engineer obsessed with distributed systems,
-              real-time architectures, and the craft of turning ambitious ideas
-              into production-grade software that scales.
+              I&apos;m a Lead Software Engineer obsessed with distributed
+              systems, real-time architectures, and the craft of turning
+              ambitious ideas into production-grade software that scales.
             </p>
             <p>
               Currently spearheading engineering at{" "}
               <span className="text-white font-medium">HighLevel</span> and
-              building{" "}
-              <span className="text-amber-400 font-medium">Neary</span> — an
-              AI-powered social discovery platform — from the ground up.
+              building <span className="text-amber-400 font-medium">Neary</span>{" "}
+              — an AI-powered social discovery platform — from the ground up.
             </p>
           </div>
         </div>

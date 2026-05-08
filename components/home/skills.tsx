@@ -15,10 +15,14 @@ const STATS = [
 ];
 
 const TABS = [
-  { key: "core",     label: "Backend",  skills: SKILLS.core },
+  { key: "core", label: "Backend", skills: SKILLS.core },
   { key: "frontend", label: "Frontend", skills: SKILLS.frontend },
-  { key: "cloud",    label: "Cloud / DevOps", skills: SKILLS.cloud },
-  { key: "other",    label: "Tools",    skills: [...SKILLS.userInterface, ...SKILLS.other] },
+  { key: "cloud", label: "Cloud / DevOps", skills: SKILLS.cloud },
+  {
+    key: "other",
+    label: "Tools",
+    skills: [...SKILLS.userInterface, ...SKILLS.other],
+  },
 ] as const;
 
 const PRINCIPLES = [
@@ -80,7 +84,8 @@ const SkillChip = ({ skill }: { skill: string }) => (
 ───────────────────────────────────────────── */
 const SkillsSection = () => {
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
-  const [activeTab, setActiveTab] = useState<(typeof TABS)[number]["key"]>("core");
+  const [activeTab, setActiveTab] =
+    useState<(typeof TABS)[number]["key"]>("core");
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -96,7 +101,8 @@ const SkillsSection = () => {
     });
   }, []);
 
-  const currentSkills = TABS.find((t) => t.key === activeTab)?.skills ?? TABS[0].skills;
+  const currentSkills =
+    TABS.find((t) => t.key === activeTab)?.skills ?? TABS[0].skills;
 
   return (
     <section
@@ -113,12 +119,12 @@ const SkillsSection = () => {
           <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-3">
             Technical Stack
           </p>
-          <h2 className="text-6xl md:text-7xl font-display font-black tracking-tighter leading-[1.04]">
+          <h2 className="text-4xl md:text-6xl font-display font-bold leading-tight">
             Engineering{" "}
             <span className="text-gradient">Digital Excellence</span>
           </h2>
         </div>
-        <p className="text-white/50 text-xl font-light max-w-sm md:text-right leading-relaxed">
+        <p className="text-xl opacity-80 leading-relaxed max-w-sm md:text-right">
           A curated toolkit built over 7+ years of shipping systems at scale.
         </p>
       </div>
@@ -151,7 +157,9 @@ const SkillsSection = () => {
               {p.icon}
             </div>
             <div className="min-w-0">
-              <p className="font-display font-black text-white text-lg leading-tight mb-1 truncate">{p.title}</p>
+              <p className="font-display font-black text-white text-lg leading-tight mb-1 truncate">
+                {p.title}
+              </p>
               <p className="text-white/45 text-sm font-light">{p.sub}</p>
             </div>
             {/* Shimmer line */}
@@ -195,8 +203,14 @@ const SkillsSection = () => {
 
       <style jsx>{`
         @keyframes fadeSlideIn {
-          from { opacity: 0; transform: translateY(12px); }
-          to   { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
       `}</style>
     </section>
