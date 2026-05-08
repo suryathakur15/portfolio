@@ -1,30 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Google Sans";
-  src: local("Google Sans Medium"), local("GoogleSans-Medium"),
-    url("/fonts/GoogleSans-Medium.woff2") format("woff2"),
-    url("/fonts/GoogleSans-Medium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Google Sans";
-  src: local("Google Sans Bold"), local("GoogleSans-Bold"),
-    url("/fonts/GoogleSans-Bold.woff2") format("woff2"),
-    url("/fonts/GoogleSans-Bold.woff") format("woff");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
+:root {
+  color-scheme: dark;
 }
 
 body {
-  @apply bg-gray-900 text-white overflow-x-hidden;
-  cursor: none;
+  @apply bg-obsidian text-white overflow-x-hidden font-sans;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 100% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
 }
 
 html {
@@ -32,44 +21,28 @@ html {
   overflow-x: hidden;
 
   @media (min-width: 768px) {
-    font-size: 14px;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 15px;
-  }
-
-  @media (min-width: 1536px) {
-    font-size: 18px;
-  }
-  @media (min-width: 1800px) {
-    font-size: 20px;
-  }
-  @media (min-width: 2000px) {
-    font-size: 22px;
+    font-size: 16px;
   }
 }
 
-:root {
-  color-scheme: dark;
+.glass {
+  @apply bg-white bg-opacity-5 backdrop-blur-md border border-white border-opacity-10;
 }
 
-::-moz-selection {
-  color: white;
-  background: black;
+.glass-card {
+  @apply glass rounded-2xl p-6 transition-all duration-300 hover:bg-opacity-10 hover:border-opacity-20;
 }
 
-::selection {
-  color: white;
-  background: black;
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-tertiary;
 }
 
 .section-container {
-  @apply 2xl:container xl:px-20 md:px-12 px-4 mx-auto;
+  @apply max-w-7xl px-6 md:px-12 mx-auto py-20;
 }
 
-a {
-  cursor: none !important;
+a, button, [role="button"], .link {
+  cursor: pointer !important;
 }
 
 .typed-cursor {

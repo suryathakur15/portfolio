@@ -22,27 +22,24 @@ const Button = ({
   classes?: string;
   otherProps?: Record<string, string>;
 }) => {
-  const buttonClasses =
-    "py-2 px-7 font-medium rounded text-base md:text-xl tracking-wide link duration-300 flex items-center";
+  const baseClasses = "inline-flex items-center justify-center font-display font-semibold transition-all duration-300 active:scale-95";
+  
+  const typeClasses = {
+    [ButtonTypes.PRIMARY]: "bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-lg shadow-accent-primary/20 hover:shadow-accent-primary/40 hover:-translate-y-1",
+    [ButtonTypes.OUTLINE]: "border border-white/20 bg-white/5 backdrop-blur-md hover:bg-white/10 hover:border-white/40 text-white hover:-translate-y-1",
+    [ButtonTypes.WHITE]: "bg-white text-black hover:bg-gray-100",
+  };
 
   return (
     <a
       {...otherProps}
       onClick={onClick}
       href={href}
-      className={`${getButtonTypeStyles(type)} ${buttonClasses} ${classes}`}
+      className={`${baseClasses} ${typeClasses[type]} ${classes}`}
     >
       {name}
     </a>
   );
-
-  function getButtonTypeStyles(type: ButtonTypes) {
-    return type === ButtonTypes.PRIMARY
-      ? styles.primary
-      : type === ButtonTypes.WHITE
-      ? styles.white
-      : styles.outline;
-  }
 };
 
 Button.propTypes = {

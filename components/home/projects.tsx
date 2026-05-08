@@ -1,157 +1,97 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import { MENULINKS, PROJECTS } from "../../constants";
-import ProjectTile from "../common/project-tile";
-import { gsap, Linear } from "gsap";
+import { PROJECTS, IProject } from "../../constants";
+import Image from "next/image";
+import { useEffect, useRef, useState, MutableRefObject } from "react";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { IDesktop, NO_MOTION_PREFERENCE_QUERY } from "pages";
-
-const PROJECT_STYLES = {
-  SECTION:
-    "w-full relative select-none section-container flex-col flex py-8 justify-center",
-  PROJECTS_WRAPPER:
-    "tall:mt-12 mt-6 grid grid-flow-col auto-cols-max md:gap-10 gap-6 project-wrapper w-fit seq snap-x scroll-pl-6 snap-mandatory",
-};
+import { IDesktop } from "pages";
+import ProjectModal from "./ProjectModal";
 
 const ProjectsSection = ({ isDesktop }: IDesktop) => {
-  const targetSectionRef: MutableRefObject<HTMLDivElement> = useRef(null);
-  const sectionTitleElementRef: MutableRefObject<HTMLDivElement> = useRef(null);
-
-  const [willChange, setwillChange] = useState(false);
-  const [horizontalAnimationEnabled, sethorizontalAnimationEnabled] =
-    useState(false);
-
-  const initRevealAnimation = (
-    targetSectionRef: MutableRefObject<HTMLDivElement>
-  ): [GSAPTimeline, ScrollTrigger] => {
-    const revealTl = gsap.timeline({ defaults: { ease: Linear.easeNone } });
-    revealTl.from(
-      targetSectionRef.current.querySelectorAll(".seq"),
-      { opacity: 0, duration: 0.5, stagger: 0.5 },
-      "<"
-    );
-
-    const scrollTrigger = ScrollTrigger.create({
-      trigger: targetSectionRef.current,
-      start: "top bottom",
-      end: "bottom bottom",
-      scrub: 0,
-      animation: revealTl,
-    });
-
-    return [revealTl, scrollTrigger];
-  };
-
-  const initProjectsAnimation = (
-    targetSectionRef: MutableRefObject<HTMLDivElement>,
-    sectionTitleElementRef: MutableRefObject<HTMLDivElement>
-  ): [GSAPTimeline, ScrollTrigger] => {
-    const timeline = gsap.timeline({ defaults: { ease: Linear.easeNone } });
-    const sidePadding =
-      document.body.clientWidth -
-      targetSectionRef.current.querySelector(".inner-container").clientWidth;
-    const elementWidth =
-      sidePadding +
-      targetSectionRef.current.querySelector(".project-wrapper").clientWidth;
-    targetSectionRef.current.style.width = `${elementWidth}px`;
-    const width = window.innerWidth - elementWidth;
-    const duration = `${(elementWidth / window.innerHeight) * 100}%`;
-    timeline
-      .to(targetSectionRef.current, { x: width })
-      .to(sectionTitleElementRef.current, { x: -width }, "<");
-
-    const scrollTrigger = ScrollTrigger.create({
-      trigger: targetSectionRef.current,
-      start: "top top",
-      end: duration,
-      scrub: 0,
-      pin: true,
-      animation: timeline,
-      pinSpacing: "margin",
-      onToggle: (self) => setwillChange(self.isActive),
-    });
-
-    return [timeline, scrollTrigger];
-  };
+  const sectionRef: MutableRefObject<HTMLDivElement> = useRef(null);
+  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
 
   useEffect(() => {
-    let projectsScrollTrigger: ScrollTrigger | undefined;
-    let projectsTimeline: GSAPTimeline | undefined;
+    const revealTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+      },
+    });
 
-    const { matches } = window.matchMedia(NO_MOTION_PREFERENCE_QUERY);
-
-    sethorizontalAnimationEnabled(isDesktop && matches);
-
-    if (isDesktop && matches) {
-      [projectsTimeline, projectsScrollTrigger] = initProjectsAnimation(
-        targetSectionRef,
-        sectionTitleElementRef
-      );
-    } else {
-      const projectWrapper = targetSectionRef.current.querySelector(
-        ".project-wrapper"
-      ) as HTMLDivElement;
-      const parentPadding = window
-        .getComputedStyle(targetSectionRef.current)
-        .getPropertyValue("padding-left");
-
-      targetSectionRef.current.style.setProperty("width", "100%");
-      projectWrapper.classList.add("overflow-x-auto");
-      projectWrapper.style.setProperty("width", `calc(100vw)`);
-      projectWrapper.style.setProperty("padding", `0 ${parentPadding}`);
-      projectWrapper.style.setProperty(
-        "transform",
-        `translateX(-${parentPadding})`
-      );
-    }
-
-    const [revealTimeline, revealScrollTrigger] =
-      initRevealAnimation(targetSectionRef);
-
-    return () => {
-      projectsScrollTrigger && projectsScrollTrigger.kill();
-      projectsTimeline && projectsTimeline.kill();
-      revealScrollTrigger && revealScrollTrigger.kill();
-      revealTimeline && revealTimeline.progress(1);
-    };
-  }, [targetSectionRef, sectionTitleElementRef, isDesktop]);
-
-  const renderSectionTitle = (): React.ReactNode => (
-    <div
-      className={`flex flex-col inner-container  ${
-        willChange ? "will-change-transform" : ""
-      }`}
-      ref={sectionTitleElementRef}
-    >
-      <p className="section-title-sm seq">PROJECTS</p>
-      <h1 className="section-heading seq mt-2">My Works</h1>
-      <h2 className="text-2xl md:max-w-3xl w-full seq max-w-sm mt-2">
-        I have contributed in over 20+ projects ranging from Frontend
-        development, UI/UX design, Open Source, and Motion Graphics
-      </h2>
-    </div>
-  );
-
-  const renderProjectTiles = (): React.ReactNode =>
-    PROJECTS.map((project) => (
-      <ProjectTile
-        project={project}
-        key={project.name}
-        animationEnabled={horizontalAnimationEnabled}
-      ></ProjectTile>
-    ));
-
-  const { ref: projectsSectionRef } = MENULINKS[1];
+    revealTl.from(sectionRef.current.querySelectorAll(".project-card"), {
+      opacity: 0,
+      y: 50,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power3.out",
+    });
+  }, []);
 
   return (
     <section
-      ref={targetSectionRef}
-      className={`${isDesktop && "min-h-screen"} ${PROJECT_STYLES.SECTION}`}
-      id={projectsSectionRef}
+      className="w-full relative select-none section-container py-24"
+      id="works"
+      ref={sectionRef}
     >
-      {renderSectionTitle()}
-      <div className={PROJECT_STYLES.PROJECTS_WRAPPER}>
-        {renderProjectTiles()}
+      <div className="flex flex-col mb-16">
+        <p className="text-accent-primary font-display font-semibold tracking-widest uppercase mb-4">SELECTED WORKS</p>
+        <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
+          Architecting <span className="text-gradient">Impact</span>
+        </h1>
+        <h2 className="text-xl opacity-70 max-w-2xl">
+          From high-frequency sports engines to AI-driven social platforms. 
+          A curated selection of systems I've built and scaled.
+        </h2>
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+        {PROJECTS.map((project, index) => (
+          <div
+            key={project.name}
+            className="project-card group cursor-pointer"
+            onClick={() => setSelectedProject(project)}
+          >
+            <div className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-white/5 bg-obsidian-light">
+              <Image
+                src={project.image}
+                alt={project.name}
+                layout="fill"
+                objectFit="cover"
+                className="group-hover:scale-105 transition-transform duration-700"
+              />
+              {/* Overlay on hover */}
+              <div className="absolute inset-0 bg-obsidian/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                 <div className="px-6 py-3 rounded-full bg-white text-obsidian font-display font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-xl">
+                    View Project Details
+                 </div>
+              </div>
+            </div>
+            
+            <div className="mt-8 flex flex-col">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-3xl font-display font-bold group-hover:text-accent-primary transition-colors">
+                  {project.name}
+                </h3>
+                <div className="flex gap-2">
+                  {project.tech.slice(0, 3).map((t) => (
+                    <span key={t} className="px-2 py-0.5 rounded-md border border-white/10 text-[9px] font-bold text-white/30 uppercase tracking-tighter">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <p className="text-lg opacity-50 font-medium leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <ProjectModal 
+        project={selectedProject} 
+        onClose={() => setSelectedProject(null)} 
+      />
     </section>
   );
 };

@@ -13,128 +13,108 @@ const SKILL_STYLES = {
 
 const SkillsSection = () => {
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
-  const [willChange, setwillChange] = useState(false);
 
   const initRevealAnimation = (
     targetSection: MutableRefObject<HTMLDivElement>
   ): ScrollTrigger => {
-    const revealTl = gsap.timeline({ defaults: { ease: Linear.easeNone } });
+    const revealTl = gsap.timeline({ defaults: { ease: "power3.out" } });
     revealTl.from(
       targetSection.current.querySelectorAll(".seq"),
-      { opacity: 0, duration: 0.5, stagger: 0.5 },
+      { opacity: 0, y: 30, duration: 0.8, stagger: 0.2 },
       "<"
     );
 
     return ScrollTrigger.create({
-      trigger: targetSection.current.querySelector(".skills-wrapper"),
-      start: "100px bottom",
-      end: `center center`,
+      trigger: targetSection.current,
+      start: "top 80%",
       animation: revealTl,
-      scrub: 0,
-      onToggle: (self) => setwillChange(self.isActive),
     });
   };
 
   useEffect(() => {
     const revealAnimationRef = initRevealAnimation(targetSection);
-
-    return revealAnimationRef.kill;
+    return () => revealAnimationRef.kill();
   }, [targetSection]);
 
   const renderSectionTitle = (): React.ReactNode => (
-    <div className="flex flex-col">
-      <p className="section-title-sm seq">SKILLS</p>
-      <h1 className="section-heading seq mt-2">My Skills</h1>
-      <h2 className="text-2xl md:max-w-2xl w-full seq mt-2">
-        Mastering all three ends of the tech spectrum using modern backend,
-        frontend architecture along with AWS solutions.
-      </h2>
+    <div className="flex flex-col mb-16">
+      <p className="text-accent-primary font-display font-semibold tracking-widest uppercase mb-4 seq">TECHNICAL STACK</p>
+      <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 seq">
+        Mastering the <span className="text-gradient">Digital Realm</span>
+      </h1>
+      <p className="text-xl opacity-70 max-w-2xl seq">
+        From architecting scalable backends to crafting pixel-perfect interfaces, 
+        I leverage a diverse set of technologies to build high-performance systems.
+      </p>
     </div>
   );
 
-  const renderBackgroundPattern = (): React.ReactNode => (
-    <>
-      <div className="absolute right-0 -bottom-1/3 w-1/5 max-w-xs md:flex hidden justify-end">
-        <Image
-          src="/pattern-r.svg"
-          loading="lazy"
-          height={700}
-          width={320}
-          alt="pattern"
-        />
-      </div>
-      <div className="absolute left-0 -bottom-3.5 w-1/12 max-w-xs md:block hidden">
-        <Image
-          src="/pattern-l.svg"
-          loading="lazy"
-          height={335}
-          width={140}
-          alt="pattern"
-        />
-      </div>
-    </>
-  );
-
-  const renderSkillColumn = (
-    title: string,
-    skills: string[]
-  ): React.ReactNode => (
-    <>
-      <h3 className={SKILL_STYLES.SKILL_TITLE}>{title}</h3>
-      <div
-        className={`flex flex-wrap seq ${
-          willChange ? "will-change-opacity" : ""
-        }`}
-      >
+  const SkillCard = ({ title, skills, className = "" }: { title: string, skills: string[], className?: string }) => (
+    <div className={`glass-card group overflow-hidden relative ${className} seq`}>
+      <div className="absolute -right-10 -top-10 w-40 h-40 bg-accent-primary/5 rounded-full blur-3xl transition-all duration-500 group-hover:bg-accent-primary/20"></div>
+      <h3 className="text-xl font-display font-bold mb-6 text-white/90">{title}</h3>
+      <div className="flex flex-wrap gap-4">
         {skills.map((skill) => (
-          <div key={skill} className="skill__wrapper">
-            <Image
-              key={skill}
-              src={`/skills/${skill}.svg`}
-              alt={skill}
-              width={64}
-              height={64}
-              className="skill"
-            />
-            <p className="skill__name">{skill}</p>
+          <div key={skill} className="flex flex-col items-center group/skill w-20 md:w-24">
+            <div className="w-12 h-12 md:w-16 md:h-16 glass rounded-xl flex items-center justify-center p-3 transition-all duration-300 group-hover/skill:border-accent-primary/50 group-hover/skill:scale-110 relative overflow-hidden">
+               {/* Icon Fallback Logic */}
+               <div className="absolute inset-0 flex items-center justify-center font-display font-bold text-xs text-white/20 uppercase pointer-events-none">
+                  {skill.charAt(0)}
+               </div>
+              <Image
+                src={`/skills/${skill.toLowerCase()}.svg`}
+                alt={skill}
+                width={40}
+                height={40}
+                onError={(e) => {
+                  (e.target as any).style.display = 'none';
+                }}
+                className="relative z-10 grayscale opacity-70 transition-all duration-300 group-hover/skill:grayscale-0 group-hover/skill:opacity-100 object-contain"
+              />
+            </div>
+            <p className="text-[9px] uppercase font-bold tracking-tighter mt-2 opacity-40 group-hover/skill:opacity-100 transition-opacity duration-300 text-center truncate w-full px-1">{skill}</p>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 
   return (
-    <section className="relative">
-      {renderBackgroundPattern()}
-      <div
-        className={SKILL_STYLES.SECTION}
-        id={MENULINKS[2].ref}
-        ref={targetSection}
-      >
-        <div className="flex flex-col skills-wrapper">
-          {renderSectionTitle()}
-          <div className="mt-10">
-            {renderSkillColumn("BACKEND DEVELOPMENT", SKILLS.core)}
-          </div>
-
-          <div className="mt-10">
-            {renderSkillColumn("FRONTEND DEVELOPMENT", SKILLS.frontend)}
-          </div>
-
-          <div className="mt-10">
-            {renderSkillColumn("CLOUD SERVICES", SKILLS.cloud)}
-          </div>
-
-          <div className="flex flex-wrap mt-10">
-            <div className="mr-6 mb-6">
-              {renderSkillColumn(
-                "User Interface, User Experience Design",
-                SKILLS.userInterface
-              )}
-            </div>
-            <div>{renderSkillColumn("Other Skills", SKILLS.other)}</div>
-          </div>
-        </div>
+    <section 
+      className="section-container relative" 
+      id={MENULINKS[2].ref} 
+      ref={targetSection}
+    >
+      {renderSectionTitle()}
+      
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        {/* Backend - Main Card */}
+        <SkillCard 
+          title="Backend Engineering" 
+          skills={SKILLS.core} 
+          className="md:col-span-8"
+        />
+        
+        {/* Frontend - Side Card */}
+        <SkillCard 
+          title="Frontend Development" 
+          skills={SKILLS.frontend} 
+          className="md:col-span-4"
+        />
+        
+        {/* Cloud - Bottom Left */}
+        <SkillCard 
+          title="Cloud & DevOps" 
+          skills={SKILLS.cloud} 
+          className="md:col-span-7"
+        />
+        
+        {/* Design & Others - Bottom Right */}
+        <SkillCard 
+          title="UI/UX & Design" 
+          skills={[...SKILLS.userInterface, ...SKILLS.other]} 
+          className="md:col-span-5"
+        />
       </div>
     </section>
   );

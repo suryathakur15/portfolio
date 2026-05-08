@@ -3,86 +3,87 @@ import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 const AboutSection = () => {
-  const quoteRef: MutableRefObject<HTMLDivElement> = useRef(null);
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
 
-  const [willChange, setwillChange] = useState(false);
-
   const initAboutAnimation = (
-    quoteRef: MutableRefObject<HTMLDivElement>,
     targetSection: MutableRefObject<HTMLDivElement>
   ): ScrollTrigger => {
-    const timeline = gsap.timeline({
-      defaults: { ease: Linear.easeNone, duration: 0.1 },
-    });
-    timeline
-      .fromTo(
-        quoteRef.current.querySelector(".about-1"),
-        { opacity: 0.2 },
-        { opacity: 1 }
-      )
-      .to(quoteRef.current.querySelector(".about-1"), {
-        opacity: 0.2,
-        delay: 0.5,
-      })
-      .fromTo(
-        quoteRef.current.querySelector(".about-2"),
-        { opacity: 0.2 },
-        { opacity: 1 },
-        "<"
-      )
-      .to(quoteRef.current.querySelector(".about-2"), {
-        opacity: 0.2,
-        delay: 1,
-      });
+    const revealTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    revealTl.from(
+      targetSection.current.querySelectorAll(".seq"),
+      { opacity: 0, y: 40, duration: 1, stagger: 0.3 },
+      "<"
+    );
 
-    const scrollTriggerInstance = ScrollTrigger.create({
+    return ScrollTrigger.create({
       trigger: targetSection.current,
-      start: "center 80%",
-      end: "center top",
-      scrub: 0,
-      animation: timeline,
-      onToggle: (self) => setwillChange(self.isActive),
+      start: "top 70%",
+      animation: revealTl,
     });
-    return scrollTriggerInstance;
   };
 
   useEffect(() => {
-    const aboutScrollTriggerInstance = initAboutAnimation(
-      quoteRef,
-      targetSection
-    );
-
-    return aboutScrollTriggerInstance.kill;
-  }, [quoteRef, targetSection]);
-
-  const renderQuotes = (): React.ReactNode => (
-    <h1 ref={quoteRef} className="font-medium text-3xl sm:text-4xl md:text-6xl">
-      <span
-        className={`about-1 leading-tight ${
-          willChange ? "will-change-opacity" : ""
-        }`}
-      >
-        I am a passionate Fullstack Engineer who bridges the gap between ideas
-        and software solutions.{" "}
-      </span>
-      <span
-        className={`about-2 leading-tight ${
-          willChange ? "will-change-opacity" : ""
-        }`}
-      >
-        I take responsibility to craft a good user experience on highly
-        available, consistent and partition tolerant systems.
-      </span>
-    </h1>
-  );
+    const aboutScrollTriggerInstance = initAboutAnimation(targetSection);
+    return () => aboutScrollTriggerInstance.kill();
+  }, [targetSection]);
 
   return (
-    <section
-      className={`tall:pt-20 tall:pb-16 pt-40 pb-24 w-full relative select-none section-container`}
+    <section 
+      className="section-container relative py-32" 
       ref={targetSection}
     >
-      {renderQuotes()}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="seq">
+          <p className="text-accent-primary font-display font-semibold tracking-widest uppercase mb-4">WHO I AM</p>
+          <h2 className="text-4xl md:text-6xl font-display font-bold mb-8 leading-tight">
+            Engineering <br />
+            <span className="text-gradient">Digital Excellence</span>
+          </h2>
+          <div className="space-y-6 text-xl opacity-80 leading-relaxed">
+            <p>
+              I am a passionate Fullstack Engineer who bridges the gap between ideas and software solutions. 
+              My journey is fueled by a relentless curiosity and a commitment to crafting systems that are not 
+              just functional, but truly impactful.
+            </p>
+            <p>
+              I take pride in architecting highly available, consistent, and resilient systems. 
+              Whether it's a pixel-perfect frontend or a complex microservice architecture, 
+              I ensure every detail aligns with the ultimate goal of delivering a superior user experience.
+            </p>
+          </div>
+        </div>
+        
+        <div className="seq relative">
+          <div className="glass-card p-10 relative z-10 overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent-primary to-accent-secondary"></div>
+            <div className="flex flex-col gap-8">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 rounded-2xl bg-accent-primary/10 flex items-center justify-center text-3xl">🚀</div>
+                <div>
+                  <h4 className="text-xl font-display font-bold">Innovation First</h4>
+                  <p className="opacity-60">Always exploring new horizons</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 rounded-2xl bg-accent-secondary/10 flex items-center justify-center text-3xl">🛠️</div>
+                <div>
+                  <h4 className="text-xl font-display font-bold">Scalable Architecture</h4>
+                  <p className="opacity-60">Built to handle the future</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 rounded-2xl bg-accent-tertiary/10 flex items-center justify-center text-3xl">💎</div>
+                <div>
+                  <h4 className="text-xl font-display font-bold">Aesthetic Design</h4>
+                  <p className="opacity-60">Beauty meets functionality</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Decorative background elements */}
+          <div className="absolute -right-4 -bottom-4 w-full h-full border border-accent-primary/20 rounded-2xl -z-1 translate-x-4 translate-y-4 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+        </div>
+      </div>
     </section>
   );
 };

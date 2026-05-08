@@ -17,9 +17,18 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-
-      black: colors.black,
-      white: colors.white,
+      black: "#000000",
+      white: "#ffffff",
+      obsidian: {
+        DEFAULT: "#030303",
+        light: "#0a0a0a",
+        lighter: "#111111",
+      },
+      accent: {
+        primary: colors.indigo[500],
+        secondary: colors.violet[500],
+        tertiary: colors.pink[500],
+      },
       gray: colors.gray,
       red: colors.red,
       yellow: colors.amber,
@@ -28,6 +37,15 @@ module.exports = {
       indigo: colors.indigo,
       purple: colors.violet,
       pink: colors.pink,
+    },
+    extend: {
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+        display: ["Outfit", "sans-serif"],
+      },
+      backdropBlur: {
+        xs: "2px",
+      },
     },
     spacing: {
       px: "1px",

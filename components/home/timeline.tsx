@@ -14,511 +14,114 @@ import { gsap, Linear } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { IDesktop, isSmallScreen } from "pages";
 
-const svgColor = "#9CA3AF";
-const animColor = "#FCD34D";
+const svgColor = "rgba(255, 255, 255, 0.1)";
+const animColor = "#6366f1";
 const separation = 450;
-const strokeWidth = 2;
+const strokeWidth = 3;
 const leftBranchX = 13;
 const curveLength = 150;
 const dotSize = 26;
 
 const TimelineSection = ({ isDesktop }: IDesktop) => {
-  const [svgWidth, setSvgWidth] = useState(400);
-  const [rightBranchX, setRightBranchX] = useState(109);
-
-  const imageLoader = ({ src, width, quality }: any) => {
-    return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
-  };
-
-  const svgCheckpointItems = TIMELINE.filter(
-    (item) => item.type === NodeTypes.CHECKPOINT && item.shouldDrawLine
-  );
-
-  const svgLength = svgCheckpointItems?.length * separation;
-
-  const timelineSvg: MutableRefObject<SVGSVGElement> = useRef(null);
-  const svgContainer: MutableRefObject<HTMLDivElement> = useRef(null);
-  const screenContainer: MutableRefObject<HTMLDivElement> = useRef(null);
-
-  const addNodeRefsToItems = (
-    timeline: Array<TimelineNodeV2>
-  ): Array<LinkedTimelineNode> => {
-    return timeline.map((node, idx) => ({
-      ...node,
-      next: timeline[idx + 1],
-      prev: timeline[idx - 1],
-    }));
-  };
-
-  const generateTimelineSvg = (timeline: Array<TimelineNodeV2>): string => {
-    let index = 1;
-    let y = dotSize / 2;
-    const timelineStyle = `<style>.str, .dot{stroke-width: ${strokeWidth}px}.anim-branch{stroke-dasharray: 186}</style>`;
-    let isDiverged = false;
-
-    const timelineSvg = addNodeRefsToItems(timeline).reduce(
-      (svg: string, node: LinkedTimelineNode) => {
-        const { type, next } = node;
-        let lineY = y;
-        let dotY = y + separation / 2;
-
-        switch (type) {
-          case NodeTypes.CHECKPOINT:
-            {
-              const { shouldDrawLine } = node;
-
-              // special handling for last checkpoint
-              if (!next) {
-                lineY = y - separation / 2;
-              }
-
-              // special handling for dot without line
-              if (!shouldDrawLine) {
-                dotY = y;
-              }
-
-              if (shouldDrawLine) {
-                // TO DO fix syntax
-                svg = shouldDrawLine
-                  ? `${drawLine(node, lineY, index, isDiverged)}${svg}`
-                  : svg;
-                y = y + separation;
-                index++;
-              }
-
-              svg = svg.concat(drawDot(node, dotY, isDiverged));
-            }
-            break;
-          case NodeTypes.DIVERGE:
-            {
-              isDiverged = true;
-
-              svg = `${drawBranch(node, y, index)}${svg}`;
-            }
-            break;
-          case NodeTypes.CONVERGE:
-            {
-              isDiverged = false;
-
-              // Drawing CONVERGE branch with previous line and index
-              svg = `${drawBranch(node, y - separation, index - 1)}${svg}`;
-            }
-            break;
-        }
-
-        return svg;
-      },
-      timelineStyle
-    );
-
-    return timelineSvg;
-  };
-
-  const getDotString = (x: number, y: number) => {
-    return `<rect class='dot' width=${dotSize} height=${dotSize} fill='#111827' x=${
-      x - dotSize / 2
-    } y=${
-      y - dotSize / 2
-    } ></rect><circle cx=${x} cy=${y} r='7' stroke=${svgColor} class='dot' ></circle>`;
-  };
-
-  const drawDot = (
-    timelineNode: LinkedCheckpointNode,
-    y: number,
-    isDiverged: boolean
-  ) => {
-    const { next, alignment } = timelineNode as LinkedCheckpointNode;
-
-    // Diverging
-    if (next && next.type === NodeTypes.DIVERGE) {
-      y = y - curveLength + 6 * dotSize;
-    }
-
-    // Converging
-    if (next && next.type === NodeTypes.CONVERGE) {
-      y = y + curveLength - 6 * dotSize;
-    }
-
-    const dotString = getDotString(
-      alignment === Branch.LEFT ? leftBranchX : rightBranchX,
-      y
-    );
-
-    const textString = addText(timelineNode, y, isDiverged);
-
-    return `${textString}${dotString}`;
-  };
-
-  const addText = (
-    timelineNode: LinkedCheckpointNode,
-    y: number,
-    isDiverged: boolean
-  ) => {
-    const { title, subtitle, size, image } = timelineNode;
-
-    const offset = isDiverged ? rightBranchX : 10;
-    const foreignObjectX = dotSize / 2 + 10 + offset;
-    const foreignObjectY = y - dotSize / 2;
-    const foreignObjectWidth = svgWidth - (dotSize / 2 + 10 + offset);
-
-    const titleSizeClass = size === ItemSize.LARGE ? "text-6xl" : "text-2xl";
-    const logoString = image
-      ? `<img src='${image}' class='h-8 mb-2' loading='lazy' width='100' height='32' alt='${image}' />`
-      : "";
-    const subtitleString = subtitle
-      ? `<p class='text-xl mt-2 text-gray-200 font-medium tracking-wide'>${subtitle}</p>`
-      : "";
-
-    return `<foreignObject x=${foreignObjectX} y=${foreignObjectY} width=${foreignObjectWidth} 
-        height=${separation}>${logoString}<p class='${titleSizeClass}'>${title}</p>${subtitleString}</foreignObject>`;
-  };
-
-  const drawLine = (
-    timelineNode: LinkedCheckpointNode,
-    y: number,
-    i: number,
-    isDiverged: boolean
-  ) => {
-    const { alignment, prev, next } = timelineNode as LinkedCheckpointNode;
-
-    const isPrevDiverge = prev && prev.type === NodeTypes.DIVERGE;
-    const isNextConverge = next && next.type === NodeTypes.CONVERGE;
-
-    const lineY = Math.abs(y + separation);
-
-    // Smaller line for Diverging
-    if (isPrevDiverge) {
-      return `<line class='str' x1=${leftBranchX} y1=${y} x2=${leftBranchX} y2=${lineY} stroke=${svgColor} /><line class='str line-${i}' x1=${leftBranchX} y1=${y} x2=${leftBranchX} y2=${lineY} stroke=${animColor} />`;
-    }
-
-    // Smaller line for Converging
-    if (isNextConverge) {
-      return `<line class='str' x1=${leftBranchX} y1=${y} x2=${leftBranchX} y2=${lineY} stroke=${svgColor} /><line class='str line-${i}' x1=${leftBranchX} y1=${y} x2=${leftBranchX} y2=${lineY} stroke=${animColor} />`;
-    }
-
-    const lineX = alignment === Branch.LEFT ? leftBranchX : rightBranchX;
-
-    let str = `<line class='str' x1=${lineX} y1=${y} x2=${lineX} y2=${lineY} stroke=${svgColor} /><line class='str line-${i}' x1=${lineX} y1=${y} x2=${lineX} y2=${lineY} stroke=${animColor} />`;
-
-    // If already diverged, draw parallel line to the existing line
-    if (isDiverged) {
-      const divergedLineX =
-        alignment === Branch.LEFT ? rightBranchX : leftBranchX;
-      str = str.concat(
-        `<line class='str' x1=${divergedLineX} y1=${y} x2=${divergedLineX} y2=${lineY} stroke=${svgColor} /><line class='str line-${i}' x1=${divergedLineX} y1=${y} x2=${divergedLineX} y2=${lineY} stroke=${animColor} />`
-      );
-    }
-    return str;
-  };
-
-  const drawBranch = (timelineNode: LinkedBranchNode, y: number, i: number) => {
-    const { type } = timelineNode;
-
-    switch (type) {
-      case NodeTypes.DIVERGE:
-        return `<path class='str' d='M ${leftBranchX} ${y} C ${leftBranchX} ${
-          y + curveLength / 2
-        } ${rightBranchX} ${y + curveLength / 2} ${rightBranchX} ${
-          y + curveLength
-        }' stroke=${svgColor} /><line class='str' x1=${rightBranchX} y1=${
-          y + curveLength
-        } x2=${rightBranchX} y2=${
-          y + separation
-        } stroke=${svgColor} /><path class='str anim-branch branch-${i}' d='M ${leftBranchX} ${y} C ${leftBranchX} ${
-          y + curveLength / 2
-        } ${rightBranchX} ${y + curveLength / 2} ${rightBranchX} ${
-          y + curveLength
-        }' stroke=${animColor} /><line class='str branch-line-${i}' x1=${rightBranchX} y1=${
-          y + curveLength
-        } x2=${rightBranchX} y2=${y + separation} stroke=${animColor} />`;
-      case NodeTypes.CONVERGE:
-        return `<path class='str' d='M ${rightBranchX} ${
-          y + separation - curveLength
-        } C ${rightBranchX} ${
-          y + separation - curveLength + curveLength / 2
-        } ${leftBranchX} ${
-          y + separation - curveLength + curveLength / 2
-        } ${leftBranchX} ${
-          y + separation
-        }' stroke=${svgColor} /><line class='str' x1=${rightBranchX} y1=${y} x2=${rightBranchX} y2=${Math.abs(
-          y + separation - curveLength
-        )} stroke=${svgColor} /><path class='str anim-branch branch-${i}' d='M ${rightBranchX} ${
-          y + separation - curveLength
-        } C ${rightBranchX} ${
-          y + separation - curveLength + curveLength / 2
-        } ${leftBranchX} ${
-          y + separation - curveLength + curveLength / 2
-        } ${leftBranchX} ${
-          y + separation
-        }' stroke=${animColor} /><line class='str branch-line-${i}' x1=${rightBranchX} y1=${y} x2=${rightBranchX} y2=${Math.abs(
-          y + separation - curveLength
-        )} stroke=${animColor} />`;
-      default:
-        return "";
-    }
-  };
-
-  const addLineSvgAnimation = (
-    timeline: GSAPTimeline,
-    duration: number,
-    index: number
-  ): GSAPTimeline => {
-    const startTime = `start+=${duration * index}`;
-
-    timeline.from(
-      svgContainer.current.querySelectorAll(`.line-${index + 1}`),
-      { scaleY: 0, duration },
-      startTime
-    );
-
-    return timeline;
-  };
-
-  const addDivergingBranchLineAnimation = (
-    timeline: GSAPTimeline,
-    duration: number,
-    index: number
-  ): GSAPTimeline => {
-    timeline
-      .from(
-        svgContainer.current.querySelector(`.line-${index + 1}`),
-        { scaleY: 0, duration },
-        `start+=${duration * index}`
-      )
-      .from(
-        svgContainer.current.querySelector(`.branch-${index + 1}`),
-        { strokeDashoffset: 186, duration: duration - 2 },
-        `start+=${duration * index}`
-      )
-      .from(
-        svgContainer.current.querySelector(`.branch-line-${index + 1}`),
-        { scaleY: 0, duration: duration - 1 },
-        `start+=${duration * (index + 1) - 2}`
-      );
-
-    return timeline;
-  };
-
-  const addConvergingBranchLineAnimation = (
-    timeline: GSAPTimeline,
-    duration: number,
-    index: number
-  ): GSAPTimeline => {
-    timeline
-      .from(
-        svgContainer.current.querySelector(`.line-${index + 1}`),
-        { scaleY: 0, duration },
-        `start+=${duration * index}`
-      )
-      .from(
-        svgContainer.current.querySelector(`.branch-line-${index + 1}`),
-        { scaleY: 0, duration: duration - 1 },
-        `start+=${duration * index}`
-      )
-      .from(
-        svgContainer.current.querySelector(`.branch-${index + 1}`),
-        { strokeDashoffset: 186, duration: duration - 2 },
-        `start+=${duration * (index + 1) - 1}`
-      );
-
-    return timeline;
-  };
-
-  const animateTimeline = (timeline: GSAPTimeline, duration: number): void => {
-    let index = 0;
-
-    addNodeRefsToItems(TIMELINE).forEach((item) => {
-      const { type } = item;
-
-      if (type === NodeTypes.CHECKPOINT && item.shouldDrawLine) {
-        const { next, prev } = item;
-
-        if (prev?.type === NodeTypes.DIVERGE) {
-          addDivergingBranchLineAnimation(timeline, duration, index);
-        } else if (next?.type === NodeTypes.CONVERGE) {
-          addConvergingBranchLineAnimation(timeline, duration, index);
-        } else {
-          addLineSvgAnimation(timeline, duration, index);
-        }
-
-        index++;
-      }
-    });
-  };
-
-  const setTimelineSvg = (
-    svgContainer: MutableRefObject<HTMLDivElement>,
-    timelineSvg: MutableRefObject<SVGSVGElement>
-  ) => {
-    const containerWidth = svgContainer.current.clientWidth;
-    setSvgWidth(containerWidth);
-
-    const resultSvgString = generateTimelineSvg(TIMELINE);
-    timelineSvg.current.innerHTML = resultSvgString;
-
-    if (isSmallScreen()) {
-      setRightBranchX(70);
-    }
-  };
-
-  const setSlidesAnimation = (timeline: GSAPTimeline): void => {
-    svgCheckpointItems.forEach((_, index) => {
-      // all except the first slide
-      if (index !== 0) {
-        timeline.fromTo(
-          screenContainer.current.querySelector(`.slide-${index + 1}`),
-          { opacity: 0 },
-          { opacity: 1 }
-        );
-      }
-
-      // all except the last slide
-      if (index !== svgCheckpointItems.length - 1) {
-        timeline.to(
-          screenContainer.current.querySelector(`.slide-${index + 1}`),
-          {
-            opacity: 0,
-            delay: 2.35,
-          }
-        );
-      }
-    });
-  };
-
-  const initScrollTrigger = (): {
-    timeline: GSAPTimeline;
-    duration: number;
-  } => {
-    const timeline = gsap
-      .timeline({ defaults: { ease: Linear.easeNone, duration: 0.44 } })
-      .addLabel("start");
-
-    let duration: number;
-    let trigger: HTMLDivElement;
-    let start: string;
-    let end: string;
-    let additionalConfig = {};
-
-    // Slide as a trigger for Desktop
-    if (isDesktop && !isSmallScreen()) {
-      // Animation for right side slides
-      setSlidesAnimation(timeline);
-
-      const platformHeight =
-        screenContainer.current.getBoundingClientRect().height;
-
-      trigger = screenContainer.current;
-      start = `top ${(window.innerHeight - platformHeight) / 2}`;
-      end = `+=${svgLength - platformHeight}`;
-      additionalConfig = {
-        pin: true,
-        pinSpacing: true,
-      };
-      duration = timeline.totalDuration() / svgCheckpointItems.length;
-    } else {
-      // Clearing out the right side on mobile devices
-      screenContainer.current.innerHTML = "";
-
-      trigger = svgContainer.current;
-      start = "top center";
-      end = `+=${svgLength}`;
-      duration = 3;
-    }
-
-    ScrollTrigger.create({
-      ...additionalConfig,
-      trigger,
-      start,
-      end,
-      scrub: 0,
-      animation: timeline,
-    });
-    return { timeline, duration };
-  };
+  const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
 
   useEffect(() => {
-    // Generate and set the timeline svg
-    setTimelineSvg(svgContainer, timelineSvg);
+    const revealTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: targetSection.current,
+        start: "top 80%",
+      },
+    });
 
-    const { timeline, duration }: { timeline: GSAPTimeline; duration: number } =
-      initScrollTrigger();
-
-    // Animation for Timeline SVG
-    animateTimeline(timeline, duration);
-    // eslint-disable-next-line
-  }, [
-    timelineSvg,
-    svgContainer,
-    svgWidth,
-    rightBranchX,
-    screenContainer,
-    svgCheckpointItems.length,
-    isDesktop,
-    svgLength,
-  ]);
-
-  const renderSlides = (): React.ReactNode => (
-    <div
-      className="max-w-full h-96 shadow-xl bg-gray-800 rounded-2xl overflow-hidden"
-      ref={screenContainer}
-    >
-      <Image
-        className="w-full h-8"
-        src="/timeline/title-bar.svg"
-        alt="Title bar"
-        width={644}
-        height={34}
-      />
-      <div className="relative h-full w-full -mt-2">
-        <div className="absolute top-0 left-0 h-full w-full">
-          {svgCheckpointItems.map((item, index) => (
-            <Image
-              className={`w-full absolute top-0 object-cover slide-${
-                index + 1
-              }`}
-              src={(item as CheckpointNode).slideImage || ""}
-              key={`${(item as CheckpointNode).title}-${index}`}
-              alt="Timeline"
-              layout="fill"
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderSVG = (): React.ReactNode => (
-    <svg
-      width={svgWidth}
-      height={svgLength}
-      viewBox={`0 0 ${svgWidth} ${svgLength}`}
-      fill="none"
-      ref={timelineSvg}
-    ></svg>
-  );
-
-  const renderSectionTitle = (): React.ReactNode => (
-    <div className="flex flex-col">
-      <p className="section-title-sm seq">MILESTONES</p>
-      <h1 className="section-heading seq mt-2">Timeline</h1>
-      <h2 className="text-2xl md:max-w-2xl w-full seq mt-2">
-        A quick recap of proud moments
-      </h2>
-    </div>
-  );
+    revealTl.from(targetSection.current.querySelectorAll(".seq"), {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+    });
+  }, []);
 
   return (
     <section
-      className="w-full relative select-none min-h-screen section-container py-8 flex flex-col justify-center"
+      className="w-full relative select-none section-container py-32 flex flex-col justify-center overflow-hidden"
       id={MENULINKS[3].ref}
+      ref={targetSection}
     >
-      {renderSectionTitle()}
-      <div className="grid grid-cols-12 gap-4 mt-20">
-        <div className="col-span-12 md:col-span-6 line-svg" ref={svgContainer}>
-          {renderSVG()}
+      {/* Background Depth Effects */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+      
+      <div className="flex flex-col mb-24 items-center text-center relative z-10">
+        <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase mb-4 seq">MILESTONES</p>
+        <h1 className="text-5xl md:text-7xl font-display font-bold mb-6 seq">
+          Engineering <span className="text-gradient">Evolution</span>
+        </h1>
+        <div className="w-24 h-1 bg-gradient-to-r from-transparent via-accent-primary to-transparent mb-8 seq"></div>
+        <h2 className="text-xl opacity-60 max-w-2xl seq">
+          A winding path through architectural challenges, leadership, and system scaling.
+        </h2>
+      </div>
+
+      <div className="relative mt-12 px-4 md:px-0 z-10">
+        {/* Creative Vertical Path with Enhanced Visibility */}
+        <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-[2px]">
+           <div className="absolute inset-0 bg-gradient-to-b from-accent-primary/30 via-accent-secondary/60 to-transparent"></div>
+           <div className="absolute inset-0 bg-accent-primary blur-[4px] opacity-30"></div>
+           {/* Animated glow point that follows scroll could be cool, but keeping it simple for stability */}
         </div>
-        <div className="col-span-12 md:col-span-6 md:flex hidden">
-          {renderSlides()}
+
+        <div className="space-y-28">
+          {TIMELINE.map((item, index) => {
+            if (item.type !== NodeTypes.CHECKPOINT) return null;
+            const isLeft = index % 2 === 0;
+
+            return (
+              <div key={index} className="relative flex items-center justify-between md:justify-normal group seq">
+                {/* Visual Connector Dot - More prominent */}
+                <div className="absolute left-[-5px] md:left-1/2 transform md:-translate-x-1/2 w-5 h-5 rounded-full bg-obsidian border-2 border-accent-primary/80 shadow-[0_0_20px_rgba(99,102,241,0.8)] z-20 transition-all duration-500 group-hover:scale-125 group-hover:shadow-[0_0_30px_rgba(99,102,241,1)]">
+                   <div className="absolute inset-1 rounded-full bg-accent-primary opacity-20 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+
+                {/* Card Container */}
+                <div className={`
+                  ml-12 md:ml-0 w-full md:w-[44%] 
+                  ${isLeft ? 'md:mr-auto' : 'md:ml-auto'} 
+                  transition-all duration-500 transform group-hover:-translate-y-2
+                `}>
+                  <div className={`
+                    glass-card p-8 md:p-10 relative overflow-hidden group/card border-white/10 bg-white/[0.02]
+                    ${isLeft ? 'md:text-right md:border-r-accent-primary/30' : 'md:text-left md:border-l-accent-primary/30'}
+                  `}>
+                    {/* Decorative Background Elements */}
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-primary/60 to-transparent transform -translate-x-full group-hover/card:translate-x-full transition-transform duration-1000"></div>
+                    
+                    <span className="text-accent-primary font-display font-bold text-xs mb-4 block uppercase tracking-widest opacity-80 group-hover:opacity-100">
+                      {item.subtitle}
+                    </span>
+                    <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-4 group-hover:text-accent-primary transition-colors leading-tight">
+                      {item.title}
+                    </h3>
+                    
+                    <div className={`flex items-center gap-3 ${isLeft ? 'md:justify-end' : 'md:justify-start'}`}>
+                       <div className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold text-white/60 uppercase tracking-tighter group-hover:border-accent-primary/40 group-hover:text-accent-primary/80 transition-all">
+                          Experience #{TIMELINE.length - index}
+                       </div>
+                    </div>
+
+                    {/* Subtle Card Glow */}
+                    <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-accent-primary/5 rounded-full blur-3xl group-hover:bg-accent-primary/10 transition-all duration-500"></div>
+                  </div>
+                </div>
+
+                {/* Date/Year Badge for Desktop - Ultimate Visibility */}
+                <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 font-display font-black text-[10rem] opacity-[0.08] text-white pointer-events-none select-none transition-all duration-700 group-hover:opacity-[0.25] group-hover:scale-105 group-hover:text-accent-primary
+                  ${isLeft ? 'left-[55%]' : 'right-[55%]'}
+                `}>
+                  {item.subtitle?.split('|')[1]?.trim().split(' ')[1]}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

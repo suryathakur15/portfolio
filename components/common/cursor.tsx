@@ -1,84 +1,61 @@
-import styles from "./Cursor.module.scss";
-import { MutableRefObject, useEffect, useRef } from "react";
-import { gsap, Linear } from "gsap";
+import { useEffect, useRef } from "react";
 import { IDesktop, isSmallScreen } from "pages";
 
-const CURSOR_STYLES = {
-  CURSOR: "fixed hidden bg-white w-4 h-4 select-none pointer-events-none z-50",
-  FOLLOWER: "fixed hidden h-8 w-8 select-none pointer-events-none z-50",
-};
-
 const Cursor = ({ isDesktop }: IDesktop) => {
-  const cursor: MutableRefObject<HTMLDivElement> = useRef(null);
-  const follower: MutableRefObject<HTMLDivElement> = useRef(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
 
-  const onHover = () => {
-    gsap.to(cursor.current, {
-      scale: 0.5,
-      duration: 0.3,
-    });
-    gsap.to(follower.current, {
-      scale: 3,
-      duration: 0.3,
-    });
-  };
+  useEffect(() => {
+    if (!isDesktop || isSmallScreen()) return;
 
-  const onUnhover = () => {
-    gsap.to(cursor.current, {
-      scale: 1,
-      duration: 0.3,
-    });
-    gsap.to(follower.current, {
-      scale: 1,
-      duration: 0.3,
-    });
-  };
+    const moveCursor = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.setProperty("--x", `${e.clientX}px`);
+        cursorRef.current.style.setProperty("--y", `${e.clientY}px`);
+      }
+    };
 
-  const moveCircle = (e: MouseEvent) => {
-    gsap.to(cursor.current, {
-      x: e.clientX,
-      y: e.clientY,
-      duration: 0.1,
-      ease: Linear.easeNone,
-    });
-    gsap.to(follower.current, {
-      x: e.clientX,
-      y: e.clientY,
-      duration: 0.3,
-      ease: Linear.easeNone,
-    });
-  };
+    window.addEventListener("mousemove", moveCursor);
 
-  const initCursorAnimation = () => {
-    follower.current.classList.remove("hidden");
-    cursor.current.classList.remove("hidden");
+    const onHover = () => cursorRef.current?.classList.add("hover");
+    const onUnhover = () => cursorRef.current?.classList.remove("hover");
 
-    document.addEventListener("mousemove", moveCircle);
-
-    document.querySelectorAll(".link").forEach((el) => {
+    const links = document.querySelectorAll("a, button, .link");
+    links.forEach((el) => {
       el.addEventListener("mouseenter", onHover);
       el.addEventListener("mouseleave", onUnhover);
     });
-  };
 
-  useEffect(() => {
-    if (isDesktop && !isSmallScreen()) {
-      initCursorAnimation();
-    }
-    // eslint-disable-next-line
-  }, [cursor, follower, isDesktop]);
+    return () => {
+      window.removeEventListener("mousemove", moveCursor);
+      links.forEach((el) => {
+        el.removeEventListener("mouseenter", onHover);
+        el.removeEventListener("mouseleave", onUnhover);
+      });
+    };
+  }, [isDesktop]);
+
+  if (!isDesktop) return null;
 
   return (
-    <>
-      <div
-        ref={cursor}
-        className={`${styles.cursor} ${CURSOR_STYLES.CURSOR}`}
-      ></div>
-      <div
-        ref={follower}
-        className={`${styles.cursorFollower} ${CURSOR_STYLES.FOLLOWER}`}
-      ></div>
-    </>
+    <div
+      ref={cursorRef}
+      className="custom-cursor fixed top-0 left-0 w-6 h-6 rounded-full pointer-events-none z-[9999] transition-transform duration-300 ease-out mix-blend-difference bg-white"
+      style={{
+        transform: "translate3d(calc(var(--x) - 50%), calc(var(--y) - 50%), 0)",
+      }}
+    >
+      <style jsx>{`
+        .custom-cursor {
+          --x: -100px;
+          --y: -100px;
+        }
+        .custom-cursor.hover {
+          transform: translate3d(calc(var(--x) - 50%), calc(var(--y) - 50%), 0) scale(4) !important;
+          background: white;
+          mix-blend-difference: difference;
+        }
+      `}</style>
+    </div>
   );
 };
 
