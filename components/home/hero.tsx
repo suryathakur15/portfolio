@@ -49,12 +49,22 @@ const HeroSection = React.memo(() => {
     return () => typed.destroy();
   }, []);
 
+  const SOCIAL_HOVER_STYLES: Record<string, string> = {
+    linkedin: "hover:bg-[#0077b5]/10 hover:border-[#0077b5]/50",
+    github: "hover:bg-white/10 hover:border-white/50",
+    instagram: "hover:bg-[#e4405f]/10 hover:border-[#e4405f]/50",
+    facebook: "hover:bg-[#1877f2]/10 hover:border-[#1877f2]/50",
+    twitter: "hover:bg-[#1da1f2]/10 hover:border-[#1da1f2]/50",
+    topmate: "hover:bg-[#f59e0b]/10 hover:border-[#f59e0b]/50",
+    medium: "hover:bg-white/10 hover:border-white/50",
+  };
+
   const renderSocialLinks = (): React.ReactNode =>
     Object.keys(SOCIAL_LINKS).map((el: keyof typeof SOCIAL_LINKS) => (
       <a
         href={SOCIAL_LINKS[el]}
         key={el}
-        className="relative w-11 h-11 flex flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 hover:border-accent-primary/50 hover:bg-accent-primary/20 transition-all duration-300 group"
+        className={`relative w-11 h-11 flex flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 transition-all duration-300 group ${SOCIAL_HOVER_STYLES[el] || "hover:bg-accent-primary/20 hover:border-accent-primary/50"}`}
         rel="noreferrer"
         target="_blank"
       >
@@ -100,21 +110,16 @@ const HeroSection = React.memo(() => {
           <div className="flex-1 text-center md:text-left mt-12">
             <div className="inline-flex items-center p-[1px] rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-500/40 to-amber-500/20 mb-10 seq relative group overflow-hidden shadow-2xl shadow-amber-500/10">
               {/* Rotating border effect */}
-              <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_20%,#f59e0b_50%,transparent_80%)] animate-[spin_4s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_20%,#f59e0b_50%,transparent_80%)] animate-[spin_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <div className="relative flex items-center gap-3 px-5 py-2.5 rounded-[15px] bg-[#0c0c0e]/90 backdrop-blur-xl">
+              <div className="relative flex items-center gap-2.5 px-4 py-2 rounded-[15px] bg-[#0c0c0e]/95 backdrop-blur-xl">
                 <div className="flex items-center justify-center relative">
-                  <div className="absolute w-4 h-4 rounded-full bg-amber-500/30 animate-ping" />
-                  <div className="relative w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_12px_rgba(245,158,11,1)]" />
+                  <div className="absolute w-3.5 h-3.5 rounded-full bg-amber-500/30 animate-ping" />
+                  <div className="relative w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,1)]" />
                 </div>
-                <div className="flex flex-col items-start">
-                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-amber-500/60 leading-none mb-1">
-                    System Design
-                  </span>
-                  <span className="text-xs sm:text-sm font-display font-bold tracking-tight text-white/90">
-                    Architecting <span className="text-amber-500">Neary.in</span>
-                  </span>
-                </div>
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-amber-500 whitespace-nowrap">
+                  Currently Architecting <span className="text-white">Neary.in</span>
+                </span>
               </div>
             </div>
 
