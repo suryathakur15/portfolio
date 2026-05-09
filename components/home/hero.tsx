@@ -49,24 +49,26 @@ const HeroSection = React.memo(() => {
     return () => typed.destroy();
   }, []);
 
-  const renderSocialLinks = (): React.ReactNode =>
-    Object.keys(SOCIAL_LINKS).map((el: keyof typeof SOCIAL_LINKS) => (
+  const renderSocialLinks = (slice?: [number, number]): React.ReactNode => {
+    const keys = Object.keys(SOCIAL_LINKS).slice(slice?.[0], slice?.[1]);
+    return keys.map((el: keyof typeof SOCIAL_LINKS) => (
       <a
         href={SOCIAL_LINKS[el]}
         key={el}
-        className="relative w-12 h-12 flex flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 hover:border-accent-primary/50 hover:bg-accent-primary/20 transition-all duration-300 group"
+        className="relative w-11 h-11 flex flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 hover:border-accent-primary/50 hover:bg-accent-primary/20 transition-all duration-300 group"
         rel="noreferrer"
         target="_blank"
       >
         <Image
           src={`/social/${el}.svg`}
           alt={el}
-          width={22}
-          height={22}
+          width={20}
+          height={20}
           className="invert brightness-[2] opacity-80 group-hover:opacity-100 transition-all"
         />
       </a>
     ));
+  };
 
   const { ref: heroSectionRef } = MENULINKS[0];
 
@@ -98,11 +100,17 @@ const HeroSection = React.memo(() => {
       <div className="section-container py-24 md:py-32 w-full">
         <div className="flex flex-col md:flex-row items-center justify-between gap-16">
           <div className="flex-1 text-center md:text-left mt-12">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 mb-8 seq shadow-lg shadow-amber-500/10 max-w-full overflow-hidden">
-              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shadow-[0_0_10px_rgba(245,158,11,1)] shrink-0" />
-              <span className="text-[9px] sm:text-xs font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-amber-500 whitespace-nowrap">
-                Currently Architecting Neary.in
-              </span>
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm mb-10 seq relative group overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/0 via-amber-500/5 to-amber-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              <div className="relative flex items-center gap-2.5">
+                <div className="flex items-center justify-center">
+                  <span className="absolute w-3 h-3 rounded-full bg-amber-500/20 animate-ping" />
+                  <span className="relative w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                </div>
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-amber-500/90">
+                  Architecting <span className="text-white">Neary.in</span>
+                </span>
+              </div>
             </div>
 
             <h2 className="text-sm sm:text-lg md:text-2xl font-display font-semibold text-accent-primary mb-6 seq uppercase tracking-[0.1em] sm:tracking-[0.4em] max-w-full leading-snug">
@@ -124,7 +132,7 @@ const HeroSection = React.memo(() => {
               />
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 seq mb-16 w-full">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 seq mb-16 w-full max-w-xl">
               <Button
                 type={ButtonTypes.PRIMARY}
                 name="Let's Connect"
@@ -132,8 +140,13 @@ const HeroSection = React.memo(() => {
                 otherProps={{ target: "_blank", rel: "noreferrer" }}
                 classes="px-4 py-2.5 text-[12px] sm:px-8 sm:py-3.5 sm:text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap w-auto"
               />
-              <div className="flex items-center gap-2 md:gap-4 overflow-x-auto flex-nowrap no-scrollbar py-3 px-1 w-full sm:w-auto justify-center md:justify-start -mx-4 sm:mx-0 px-4 sm:px-0 touch-pan-x">
-                {renderSocialLinks()}
+              <div className="flex flex-col gap-2 w-full sm:w-auto">
+                <div className="flex items-center gap-2 justify-center md:justify-start">
+                  {renderSocialLinks([0, 4])}
+                </div>
+                <div className="flex items-center gap-2 justify-center md:justify-start">
+                  {renderSocialLinks([4, 8])}
+                </div>
               </div>
             </div>
           </div>

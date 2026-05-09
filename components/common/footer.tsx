@@ -75,7 +75,7 @@ const Footer = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-bold uppercase tracking-[0.25em] text-white/25">
           <div className="flex flex-col items-center sm:items-start gap-1">
             <span>© {new Date().getFullYear()} Surya Thakur · Lead Software Engineer</span>
-            <span className="font-accent text-lg text-accent-primary lowercase opacity-80 mt-1">Handcrafted by Surya</span>
+            <span className="font-accent text-lg text-accent-tertiary brightness-125 lowercase opacity-90 mt-1 tracking-wide">Handcrafted by Surya</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.9)]" />

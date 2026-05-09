@@ -116,7 +116,7 @@ const SkillsSection = () => {
       {/* ── Header ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 seq">
         <div>
-          <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-3">
+          <p className="text-accent-primary font-accent text-2xl mb-3">
             Technical Stack
           </p>
           <h2 className="text-4xl md:text-6xl font-display font-bold leading-tight">
