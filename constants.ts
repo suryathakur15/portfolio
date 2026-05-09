@@ -93,13 +93,13 @@ export const SOCIAL_LINKS = {
 };
 
 export const SOCIAL_HOVER_STYLES: Record<string, string> = {
-  linkedin: "hover:bg-[#0077b5]/10 hover:border-[#0077b5]/50",
-  github: "hover:bg-white/10 hover:border-white/50",
-  instagram: "hover:bg-[#e4405f]/10 hover:border-[#e4405f]/50",
-  facebook: "hover:bg-[#1877f2]/10 hover:border-[#1877f2]/50",
-  twitter: "hover:bg-[#1da1f2]/10 hover:border-[#1da1f2]/50",
-  topmate: "hover:bg-[#f59e0b]/10 hover:border-[#f59e0b]/50",
-  medium: "hover:bg-white/10 hover:border-white/50",
+  linkedin: "hover:bg-[#0077b5]/20 hover:border-[#0077b5] hover:shadow-[0_0_30px_rgba(0,119,181,0.5)] hover:scale-110 hover:-translate-y-1",
+  github: "hover:bg-white/20 hover:border-white hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:scale-110 hover:-translate-y-1",
+  instagram: "hover:bg-[#e4405f]/20 hover:border-[#e4405f] hover:shadow-[0_0_30px_rgba(228,64,95,0.5)] hover:scale-110 hover:-translate-y-1",
+  facebook: "hover:bg-[#1877f2]/20 hover:border-[#1877f2] hover:shadow-[0_0_30px_rgba(24,119,242,0.5)] hover:scale-110 hover:-translate-y-1",
+  twitter: "hover:bg-[#1da1f2]/20 hover:border-[#1da1f2] hover:shadow-[0_0_30px_rgba(29,161,242,0.5)] hover:scale-110 hover:-translate-y-1",
+  topmate: "hover:bg-[#f59e0b]/20 hover:border-[#f59e0b] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-110 hover:-translate-y-1",
+  medium: "hover:bg-white/20 hover:border-white hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:scale-110 hover:-translate-y-1",
 };
 
 export const PROJECTS: Array<IProject> = [

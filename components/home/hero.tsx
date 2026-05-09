@@ -14,9 +14,9 @@ const HeroSection = React.memo(() => {
   ): Typed => {
     return new Typed(element.current, {
       strings: TYPED_STRINGS,
-      typeSpeed: 50,
-      backSpeed: 50,
-      backDelay: 3000,
+      typeSpeed: 40,
+      backSpeed: 30,
+      backDelay: 500,
       loop: true,
     });
   }, []);

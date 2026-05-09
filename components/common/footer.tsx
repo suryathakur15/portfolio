@@ -52,7 +52,7 @@ const Footer = () => {
                 href={SOCIAL_LINKS[el]}
                 key={el}
                 aria-label={el}
-                className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-all duration-300 group hover:scale-110 ${SOCIAL_HOVER_STYLES[el] || "hover:border-accent-primary/60 hover:bg-accent-primary/10"}`}
+                className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-all duration-300 group ${SOCIAL_HOVER_STYLES[el] || "hover:border-accent-primary/60 hover:bg-accent-primary/10"}`}
                 rel="noreferrer"
                 target="_blank"
               >
