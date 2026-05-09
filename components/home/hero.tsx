@@ -183,72 +183,78 @@ const HeroSection = React.memo(() => {
                   <div className="text-[10px] font-mono text-white/20 tracking-tighter uppercase">system_v2.0.sh</div>
                 </div>
 
-                {/* Default State: Abstract System Diagram */}
-                <div className="space-y-6 transition-all duration-500 group-hover/card:opacity-0 group-hover/card:scale-95 group-hover/card:blur-sm">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-accent-primary/20 flex items-center justify-center border border-accent-primary/30">
-                      <div className="w-4 h-4 rounded-full border-2 border-accent-primary animate-pulse" />
+                {/* ── Default View (Diagram + Stats) ── */}
+                <div className="flex-1 flex flex-col transition-all duration-500 group-hover/card:opacity-0 group-hover/card:scale-95 group-hover/card:blur-sm">
+                  {/* Abstract System Diagram */}
+                  <div className="space-y-6 flex-1">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-accent-primary/20 flex items-center justify-center border border-accent-primary/30">
+                        <div className="w-4 h-4 rounded-full border-2 border-accent-primary animate-pulse" />
+                      </div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-2 w-3/4 bg-white/20 rounded-full" />
+                        <div className="h-2 w-1/2 bg-white/10 rounded-full" />
+                      </div>
                     </div>
-                    <div className="flex-1 space-y-2">
-                      <div className="h-2 w-3/4 bg-white/20 rounded-full" />
-                      <div className="h-2 w-1/2 bg-white/10 rounded-full" />
+                    <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                    <div className="space-y-4">
+                      <div className="h-2.5 w-full bg-accent-primary/40 rounded-full shadow-[0_0_15px_rgba(99,102,241,0.3)]" />
+                      <div className="flex gap-2">
+                        <div className="h-2 w-1/3 bg-white/15 rounded-full" />
+                        <div className="h-2 w-2/3 bg-white/10 rounded-full" />
+                      </div>
+                      <div className="h-2.5 w-[85%] bg-white/15 rounded-full" />
                     </div>
                   </div>
-                  <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                  <div className="space-y-4">
-                    <div className="h-2.5 w-full bg-accent-primary/40 rounded-full shadow-[0_0_15px_rgba(99,102,241,0.3)]" />
-                    <div className="flex gap-2">
-                      <div className="h-2 w-1/3 bg-white/15 rounded-full" />
-                      <div className="h-2 w-2/3 bg-white/10 rounded-full" />
+
+                  {/* Footer Info (Part of Default View) */}
+                  <div className="mt-auto pt-6 border-t border-white/10 flex justify-between items-center">
+                    <div>
+                      <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] mb-1">
+                        Status: Active
+                      </div>
+                      <div className="text-xs font-bold text-white/80">
+                        AI Integration Layer
+                      </div>
                     </div>
-                    <div className="h-2.5 w-[85%] bg-white/15 rounded-full" />
+                    <div className="flex flex-col items-end">
+                      <div className="text-[14px] font-black text-accent-primary drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]">
+                        99.99%
+                      </div>
+                      <div className="text-[8px] text-white/20 uppercase font-bold tracking-tighter">Uptime Target</div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Hover State: Code Writing Effect */}
-                <div className="absolute inset-0 pt-20 px-8 opacity-0 group-hover/card:opacity-100 transition-all duration-500 delay-100 flex flex-col pointer-events-none">
+                {/* ── Hover View (Code Terminal) ── */}
+                <div className="absolute inset-x-8 top-20 bottom-8 opacity-0 group-hover/card:opacity-100 transition-all duration-500 delay-100 flex flex-col pointer-events-none">
                   <div className="font-mono text-[11px] space-y-3 leading-relaxed">
                     <div className="flex gap-2">
                       <span className="text-accent-primary tracking-tighter">❯</span>
                       <span className="text-green-400 overflow-hidden whitespace-nowrap animate-typing border-r-2 border-green-400">architect --deploy neary</span>
                     </div>
                     <div className="text-white/40 delay-500 animate-fade-in">Initializing distributed cluster...</div>
-                    <div className="text-white/60 font-bold">
+                    <div className="text-white/60 font-bold animate-fade-in delay-700">
                       <span className="text-blue-400">LoadBalancer:</span> 20M+ connected
                     </div>
-                    <div className="mt-4 p-3 rounded-lg bg-white/[0.03] border border-white/5 space-y-2">
-                      <div className="text-purple-400 italic">// Optimization Loop</div>
+                    <div className="mt-4 p-4 rounded-lg bg-white/[0.03] border border-white/5 space-y-2 animate-fade-in delay-1000">
+                      <div className="text-purple-400 italic font-medium">// Optimization Loop</div>
                       <code className="text-white/70 block leading-normal">
-                        <span className="text-accent-primary">func</span> <span className="text-blue-300">Scale</span>() &#123; <br />
+                        <span className="text-accent-primary font-bold">func</span> <span className="text-blue-300">Scale</span>() &#123; <br />
                         &nbsp;&nbsp;<span className="text-purple-400">for</span> &#123; <br />
                         &nbsp;&nbsp;&nbsp;&nbsp;neary.<span className="text-green-300">Sync</span>() <br />
                         &nbsp;&nbsp;&#125; <br />
                         &#125;
                       </code>
                     </div>
-                  </div>
-                </div>
-
-                {/* Footer Info */}
-                <div className="mt-auto pt-6 border-t border-white/10 flex justify-between items-center bg-[#0c0c0e]/80">
-                  <div>
-                    <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] mb-1 group-hover/card:text-accent-primary transition-colors">
-                      Status: Active
+                    <div className="mt-auto text-[10px] text-accent-primary/60 animate-pulse">
+                      &gt; SYSTEM_READY_FOR_TRAFFIC
                     </div>
-                    <div className="text-xs font-bold text-white/80 group-hover/card:text-white transition-colors">
-                      AI Integration Layer
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <div className="text-[14px] font-black text-accent-primary drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]">
-                      99.99%
-                    </div>
-                    <div className="text-[8px] text-white/20 uppercase font-bold tracking-tighter">Uptime Target</div>
                   </div>
                 </div>
 
                 {/* Scanline overlay */}
-                <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
+                <div className="absolute inset-0 pointer-events-none opacity-[0.02] group-hover/card:opacity-[0.05] transition-opacity bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
               </div>
 
               {/* Floating Orbs */}
