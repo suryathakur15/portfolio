@@ -98,21 +98,28 @@ const HeroSection = React.memo(() => {
       <div className="section-container py-24 md:py-32 w-full">
         <div className="flex flex-col md:flex-row items-center justify-between gap-16">
           <div className="flex-1 text-center md:text-left mt-12">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm mb-10 seq relative group overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/0 via-amber-500/5 to-amber-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-              <div className="relative flex items-center gap-2.5">
-                <div className="flex items-center justify-center">
-                  <span className="absolute w-3 h-3 rounded-full bg-amber-500/20 animate-ping" />
-                  <span className="relative w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+            <div className="inline-flex items-center p-[1px] rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-500/40 to-amber-500/20 mb-10 seq relative group overflow-hidden shadow-2xl shadow-amber-500/10">
+              {/* Rotating border effect */}
+              <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_20%,#f59e0b_50%,transparent_80%)] animate-[spin_4s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative flex items-center gap-3 px-5 py-2.5 rounded-[15px] bg-[#0c0c0e]/90 backdrop-blur-xl">
+                <div className="flex items-center justify-center relative">
+                  <div className="absolute w-4 h-4 rounded-full bg-amber-500/30 animate-ping" />
+                  <div className="relative w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_12px_rgba(245,158,11,1)]" />
                 </div>
-                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-amber-500/90">
-                  Architecting <span className="text-white">Neary.in</span>
-                </span>
+                <div className="flex flex-col items-start">
+                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-amber-500/60 leading-none mb-1">
+                    System Design
+                  </span>
+                  <span className="text-xs sm:text-sm font-display font-bold tracking-tight text-white/90">
+                    Architecting <span className="text-amber-500">Neary.in</span>
+                  </span>
+                </div>
               </div>
             </div>
 
             <h2 className="text-sm sm:text-lg md:text-2xl font-display font-semibold text-accent-primary mb-6 seq uppercase tracking-[0.1em] sm:tracking-[0.4em] max-w-full leading-snug">
-              System Architect &amp; Lead Engineer
+              Lead Engineer
             </h2>
 
             <h1 className="text-3xl sm:text-6xl md:text-8xl font-display font-bold seq leading-tight mb-8 tracking-tight break-words">
