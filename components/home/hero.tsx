@@ -49,9 +49,8 @@ const HeroSection = React.memo(() => {
     return () => typed.destroy();
   }, []);
 
-  const renderSocialLinks = (slice?: [number, number]): React.ReactNode => {
-    const keys = Object.keys(SOCIAL_LINKS).slice(slice?.[0], slice?.[1]);
-    return keys.map((el: keyof typeof SOCIAL_LINKS) => (
+  const renderSocialLinks = (): React.ReactNode =>
+    Object.keys(SOCIAL_LINKS).map((el: keyof typeof SOCIAL_LINKS) => (
       <a
         href={SOCIAL_LINKS[el]}
         key={el}
@@ -68,7 +67,6 @@ const HeroSection = React.memo(() => {
         />
       </a>
     ));
-  };
 
   const { ref: heroSectionRef } = MENULINKS[0];
 
@@ -132,7 +130,7 @@ const HeroSection = React.memo(() => {
               />
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 seq mb-16 w-full max-w-xl">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 seq mb-16 w-full">
               <Button
                 type={ButtonTypes.PRIMARY}
                 name="Let's Connect"
@@ -140,13 +138,8 @@ const HeroSection = React.memo(() => {
                 otherProps={{ target: "_blank", rel: "noreferrer" }}
                 classes="px-4 py-2.5 text-[12px] sm:px-8 sm:py-3.5 sm:text-base rounded-xl shadow-xl shadow-accent-primary/20 hover:scale-105 transition-all duration-300 font-bold tracking-tight whitespace-nowrap w-auto"
               />
-              <div className="flex flex-col gap-2 w-full sm:w-auto">
-                <div className="flex items-center gap-2 justify-center md:justify-start">
-                  {renderSocialLinks([0, 4])}
-                </div>
-                <div className="flex items-center gap-2 justify-center md:justify-start">
-                  {renderSocialLinks([4, 8])}
-                </div>
+              <div className="flex items-center gap-2 md:gap-4 overflow-x-auto flex-nowrap no-scrollbar py-3 px-1 w-full sm:w-auto justify-center md:justify-start -mx-4 sm:mx-0 px-4 sm:px-0 touch-pan-x">
+                {renderSocialLinks()}
               </div>
             </div>
           </div>
