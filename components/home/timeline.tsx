@@ -94,7 +94,7 @@ const TimelineSection = ({ isDesktop }: IDesktop) => {
 
       {/* ── Section header ── */}
       <div className="flex flex-col items-center text-center mb-20 md:mb-28 relative z-10">
-        <p className="text-accent-primary font-display font-semibold tracking-[0.3em] uppercase text-sm mb-4 seq">
+        <p className="text-accent-primary font-accent text-3xl mb-4 seq">
           Milestones
         </p>
         <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 seq leading-tight">
