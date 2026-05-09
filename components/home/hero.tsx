@@ -111,8 +111,8 @@ const HeroSection = React.memo(() => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-16">
           <div className="flex-1 text-center md:text-left mt-12">
             <div className="inline-flex items-center p-[1px] rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-500/40 to-amber-500/20 mb-10 seq relative group overflow-hidden shadow-2xl shadow-amber-500/10">
-              {/* Rotating border effect */}
-              <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_20%,#f59e0b_50%,transparent_80%)] animate-[spin_3s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Rotating border effect - Always active */}
+              <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_20%,#f59e0b_50%,transparent_80%)] animate-[spin_3s_linear_infinite] opacity-100 transition-opacity duration-500" />
               
               <div className="relative flex items-center gap-2.5 px-4 py-2 rounded-[15px] bg-[#0c0c0e]/95 backdrop-blur-xl">
                 <div className="flex items-center justify-center relative">

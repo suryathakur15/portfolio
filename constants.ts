@@ -92,6 +92,16 @@ export const SOCIAL_LINKS = {
   medium: "https://suryathakur15.medium.com",
 };
 
+export const SOCIAL_HOVER_STYLES: Record<string, string> = {
+  linkedin: "hover:bg-[#0077b5]/10 hover:border-[#0077b5]/50",
+  github: "hover:bg-white/10 hover:border-white/50",
+  instagram: "hover:bg-[#e4405f]/10 hover:border-[#e4405f]/50",
+  facebook: "hover:bg-[#1877f2]/10 hover:border-[#1877f2]/50",
+  twitter: "hover:bg-[#1da1f2]/10 hover:border-[#1da1f2]/50",
+  topmate: "hover:bg-[#f59e0b]/10 hover:border-[#f59e0b]/50",
+  medium: "hover:bg-white/10 hover:border-white/50",
+};
+
 export const PROJECTS: Array<IProject> = [
   {
     name: "Neary",

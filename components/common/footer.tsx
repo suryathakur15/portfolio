@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { EMAIL, SOCIAL_LINKS } from "../../constants";
+import { EMAIL, SOCIAL_LINKS, SOCIAL_HOVER_STYLES } from "../../constants";
 
 const Footer = () => {
   const socialKeys = Object.keys(SOCIAL_LINKS) as Array<keyof typeof SOCIAL_LINKS>;
@@ -52,7 +52,7 @@ const Footer = () => {
                 href={SOCIAL_LINKS[el]}
                 key={el}
                 aria-label={el}
-                className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center hover:scale-110 hover:border-accent-primary/60 hover:bg-accent-primary/10 transition-all duration-300 group"
+                className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-all duration-300 group hover:scale-110 ${SOCIAL_HOVER_STYLES[el] || "hover:border-accent-primary/60 hover:bg-accent-primary/10"}`}
                 rel="noreferrer"
                 target="_blank"
               >
