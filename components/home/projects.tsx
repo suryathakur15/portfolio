@@ -45,7 +45,7 @@ const ProjectsSection = ({
       ref={sectionRef}
     >
       <div className="flex flex-col mb-16">
-        <p className="text-accent-primary font-accent text-2xl mb-4">
+        <p className="text-accent-primary font-accent text-3xl mb-4">
           Selected Works
         </p>
         <h1 className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-[1.04] mb-6">

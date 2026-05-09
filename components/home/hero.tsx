@@ -74,7 +74,7 @@ const HeroSection = React.memo(() => {
           alt={el}
           width={20}
           height={20}
-          className="invert brightness-[2] opacity-80 group-hover:opacity-100 transition-all"
+          className="invert brightness-[2.5] opacity-100 group-hover:brightness-[3] transition-all"
         />
       </a>
     ));
