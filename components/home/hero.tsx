@@ -166,39 +166,94 @@ const HeroSection = React.memo(() => {
 
           {/* Architectural system visual */}
           <div className="hidden lg:flex flex-1 justify-end seq">
-            <div className="relative w-[440px] h-[440px]">
-              <div className="absolute inset-0 border-[3px] border-accent-primary/40 rounded-[40px] rotate-12 animate-spin-slow shadow-[0_0_60px_rgba(99,102,241,0.2)]" />
-              <div className="absolute inset-0 border-2 border-white/15 rounded-[40px] -rotate-12" />
+            <div className="relative w-[460px] h-[460px] group/card">
+              {/* Outer decorative rings */}
+              <div className="absolute inset-0 border-[3px] border-accent-primary/20 rounded-[40px] rotate-12 group-hover/card:rotate-[15deg] group-hover/card:border-accent-primary/40 transition-all duration-700 animate-spin-slow shadow-[0_0_60px_rgba(99,102,241,0.1)]" />
+              <div className="absolute inset-0 border-2 border-white/10 rounded-[40px] -rotate-12 group-hover/card:-rotate-[15deg] transition-all duration-700" />
 
-              <div className="absolute inset-16 glass-card rounded-3xl flex flex-col p-10 bg-white/[0.04] shadow-2xl backdrop-blur-3xl">
-                <div className="flex gap-3 mb-8">
-                  <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-lg" />
-                  <div className="w-3 h-3 rounded-full bg-green-500 shadow-lg" />
+              {/* Main Card */}
+              <div className="absolute inset-12 glass-card rounded-3xl flex flex-col p-8 bg-[#0c0c0e]/80 shadow-2xl backdrop-blur-3xl border border-white/10 overflow-hidden relative group-hover/card:shadow-accent-primary/20 transition-all duration-500">
+                {/* Terminal Header */}
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                  </div>
+                  <div className="text-[10px] font-mono text-white/20 tracking-tighter uppercase">system_v2.0.sh</div>
                 </div>
-                <div className="space-y-5">
-                  <div className="h-2.5 w-3/4 bg-white/25 rounded-full" />
-                  <div className="h-2.5 w-1/2 bg-white/15 rounded-full" />
-                  <div className="h-2.5 w-full bg-accent-primary/50 rounded-full shadow-[0_0_20px_rgba(99,102,241,0.5)]" />
-                  <div className="h-2.5 w-2/3 bg-white/20 rounded-full" />
+
+                {/* Default State: Abstract System Diagram */}
+                <div className="space-y-6 transition-all duration-500 group-hover/card:opacity-0 group-hover/card:scale-95 group-hover/card:blur-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-accent-primary/20 flex items-center justify-center border border-accent-primary/30">
+                      <div className="w-4 h-4 rounded-full border-2 border-accent-primary animate-pulse" />
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-2 w-3/4 bg-white/20 rounded-full" />
+                      <div className="h-2 w-1/2 bg-white/10 rounded-full" />
+                    </div>
+                  </div>
+                  <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                  <div className="space-y-4">
+                    <div className="h-2.5 w-full bg-accent-primary/40 rounded-full shadow-[0_0_15px_rgba(99,102,241,0.3)]" />
+                    <div className="flex gap-2">
+                      <div className="h-2 w-1/3 bg-white/15 rounded-full" />
+                      <div className="h-2 w-2/3 bg-white/10 rounded-full" />
+                    </div>
+                    <div className="h-2.5 w-[85%] bg-white/15 rounded-full" />
+                  </div>
                 </div>
-                <div className="mt-auto pt-6 border-t border-white/15 flex justify-between items-center">
+
+                {/* Hover State: Code Writing Effect */}
+                <div className="absolute inset-0 pt-20 px-8 opacity-0 group-hover/card:opacity-100 transition-all duration-500 delay-100 flex flex-col pointer-events-none">
+                  <div className="font-mono text-[11px] space-y-3 leading-relaxed">
+                    <div className="flex gap-2">
+                      <span className="text-accent-primary tracking-tighter">❯</span>
+                      <span className="text-green-400 overflow-hidden whitespace-nowrap animate-typing border-r-2 border-green-400">architect --deploy neary</span>
+                    </div>
+                    <div className="text-white/40 delay-500 animate-fade-in">Initializing distributed cluster...</div>
+                    <div className="text-white/60 font-bold">
+                      <span className="text-blue-400">LoadBalancer:</span> 20M+ connected
+                    </div>
+                    <div className="mt-4 p-3 rounded-lg bg-white/[0.03] border border-white/5 space-y-2">
+                      <div className="text-purple-400 italic">// Optimization Loop</div>
+                      <code className="text-white/70 block leading-normal">
+                        <span className="text-accent-primary">func</span> <span className="text-blue-300">Scale</span>() &#123; <br />
+                        &nbsp;&nbsp;<span className="text-purple-400">for</span> &#123; <br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;neary.<span className="text-green-300">Sync</span>() <br />
+                        &nbsp;&nbsp;&#125; <br />
+                        &#125;
+                      </code>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer Info */}
+                <div className="mt-auto pt-6 border-t border-white/10 flex justify-between items-center bg-[#0c0c0e]/80">
                   <div>
-                    <div className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-1">
-                      Distributed Systems
+                    <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] mb-1 group-hover/card:text-accent-primary transition-colors">
+                      Status: Active
                     </div>
-                    <div className="text-sm font-bold text-white/90">
-                      AI Orchestration
+                    <div className="text-xs font-bold text-white/80 group-hover/card:text-white transition-colors">
+                      AI Integration Layer
                     </div>
                   </div>
-                  <div className="px-3 py-1.5 rounded-lg bg-accent-primary/20 text-[10px] font-black text-accent-primary uppercase tracking-tight border border-accent-primary/30 shadow-lg shadow-accent-primary/10">
-                    Scale: 20M+
+                  <div className="flex flex-col items-end">
+                    <div className="text-[14px] font-black text-accent-primary drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]">
+                      99.99%
+                    </div>
+                    <div className="text-[8px] text-white/20 uppercase font-bold tracking-tighter">Uptime Target</div>
                   </div>
                 </div>
+
+                {/* Scanline overlay */}
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
               </div>
 
-              <div className="absolute -top-10 -right-10 w-28 h-28 bg-accent-primary/25 rounded-full blur-3xl animate-pulse" />
-              <div className="absolute -bottom-10 -left-10 w-36 h-36 bg-accent-secondary/25 rounded-full blur-3xl animate-pulse delay-1000" />
+              {/* Floating Orbs */}
+              <div className="absolute -top-12 -right-12 w-32 h-32 bg-accent-primary/20 rounded-full blur-3xl animate-pulse group-hover/card:bg-accent-primary/40 transition-all duration-700" />
+              <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-accent-secondary/20 rounded-full blur-3xl animate-pulse delay-1000 group-hover/card:bg-accent-secondary/40 transition-all duration-700" />
             </div>
           </div>
         </div>
@@ -206,15 +261,28 @@ const HeroSection = React.memo(() => {
 
       <style jsx>{`
         @keyframes spin-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes typing {
+          from { width: 0 }
+          to { width: 100% }
+        }
+        @keyframes blink {
+          50% { border-color: transparent }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(5px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         .animate-spin-slow {
           animation: spin-slow 30s linear infinite;
+        }
+        .animate-typing {
+          animation: typing 1.5s steps(30, end), blink 0.8s step-end infinite;
+        }
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out forwards;
         }
       `}</style>
     </section>
