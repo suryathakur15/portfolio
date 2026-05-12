@@ -1,25 +1,27 @@
-import { MENULINKS, SOCIAL_LINKS, TYPED_STRINGS, SOCIAL_HOVER_STYLES } from "../../constants";
+import { MENULINKS, SOCIAL_LINKS, TYPED_STRINGS } from "../../constants";
 import React, { MutableRefObject, useEffect, useRef, useCallback } from "react";
 import Typed from "typed.js";
 import Image from "next/image";
 import { gsap } from "gsap";
 import Button, { ButtonTypes } from "../common/button";
+import { getRandomSocialColor } from "../../utils";
 
 const HeroSection = React.memo(() => {
   const typedSpanElement: MutableRefObject<HTMLSpanElement> = useRef(null);
   const targetSection: MutableRefObject<HTMLDivElement> = useRef(null);
 
-  const initTypeAnimation = useCallback((
-    element: MutableRefObject<HTMLSpanElement>,
-  ): Typed => {
-    return new Typed(element.current, {
-      strings: TYPED_STRINGS,
-      typeSpeed: 40,
-      backSpeed: 30,
-      backDelay: 500,
-      loop: true,
-    });
-  }, []);
+  const initTypeAnimation = useCallback(
+    (element: MutableRefObject<HTMLSpanElement>): Typed => {
+      return new Typed(element.current, {
+        strings: TYPED_STRINGS,
+        typeSpeed: 40,
+        backSpeed: 30,
+        backDelay: 500,
+        loop: true,
+      });
+    },
+    [],
+  );
 
   useEffect(() => {
     const typed = initTypeAnimation(typedSpanElement);
@@ -36,13 +38,21 @@ const HeroSection = React.memo(() => {
     return () => typed.destroy();
   }, [initTypeAnimation]);
 
-  const renderSocialLinksGroup = (slice?: [number, number]): React.ReactNode => {
+  const renderSocialLinksGroup = (
+    slice?: [number, number],
+  ): React.ReactNode => {
     const keys = Object.keys(SOCIAL_LINKS).slice(slice?.[0], slice?.[1]);
     return keys.map((el: keyof typeof SOCIAL_LINKS) => (
       <a
         href={SOCIAL_LINKS[el]}
         key={el}
-        className={`relative w-11 h-11 flex flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 transition-all duration-300 group ${SOCIAL_HOVER_STYLES[el] || "hover:bg-accent-primary/20 hover:border-accent-primary/50"}`}
+        onMouseEnter={(e) => {
+          const solidColor = getRandomSocialColor(0.7);
+          const alphaColor = "#3c3c3dff"; // Lighter version as requested
+          e.currentTarget.style.setProperty("--hover-color", solidColor);
+          e.currentTarget.style.setProperty("--hover-glow", alphaColor);
+        }}
+        className="relative w-11 h-11 flex flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 transition-all duration-500 group hover:border-[var(--hover-color)] hover:bg-[var(--hover-glow)] hover:shadow-[0_0_20px_var(--hover-glow)] hover:scale-110 hover:-translate-y-1"
         rel="noreferrer"
         target="_blank"
       >
@@ -85,14 +95,15 @@ const HeroSection = React.memo(() => {
           <div className="flex-1 text-center md:text-left mt-12">
             <div className="inline-flex items-center p-[1px] rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-500/40 to-amber-500/20 mb-10 seq relative group overflow-hidden shadow-2xl shadow-amber-500/10">
               <div className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_20%,#f59e0b_50%,transparent_80%)] animate-[spin_3s_linear_infinite] opacity-100 transition-opacity duration-500" />
-              
+
               <div className="relative flex items-center gap-2.5 px-4 py-2 rounded-[15px] bg-[#0c0c0e]/95 backdrop-blur-xl">
                 <div className="flex items-center justify-center relative">
                   <div className="absolute w-3.5 h-3.5 rounded-full bg-amber-500/30 animate-ping" />
                   <div className="relative w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,1)]" />
                 </div>
                 <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-amber-500 whitespace-nowrap">
-                  Currently Architecting <span className="text-white">Neary.in</span>
+                  Currently Architecting{" "}
+                  <span className="text-white">Neary.in</span>
                 </span>
               </div>
             </div>
@@ -147,7 +158,9 @@ const HeroSection = React.memo(() => {
                     <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
                     <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
                   </div>
-                  <div className="text-[10px] font-mono text-white/20 tracking-tighter uppercase">system_v2.0.sh</div>
+                  <div className="text-[10px] font-mono text-white/20 tracking-tighter uppercase">
+                    system_v2.0.sh
+                  </div>
                 </div>
 
                 <div className="flex-1 flex flex-col transition-all duration-500 group-hover/card:opacity-0 group-hover/card:scale-95 group-hover/card:blur-sm">
@@ -185,7 +198,9 @@ const HeroSection = React.memo(() => {
                       <div className="text-[14px] font-black text-accent-primary drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]">
                         99.99%
                       </div>
-                      <div className="text-[8px] text-white/20 uppercase font-bold tracking-tighter">Uptime Target</div>
+                      <div className="text-[8px] text-white/20 uppercase font-bold tracking-tighter">
+                        Uptime Target
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -193,19 +208,36 @@ const HeroSection = React.memo(() => {
                 <div className="absolute inset-x-8 top-20 bottom-8 opacity-0 group-hover/card:opacity-100 transition-all duration-500 delay-100 flex flex-col pointer-events-none">
                   <div className="font-mono text-[11px] space-y-3 leading-relaxed">
                     <div className="flex gap-2">
-                      <span className="text-accent-primary tracking-tighter">❯</span>
-                      <span className="text-green-400 overflow-hidden whitespace-nowrap animate-typing border-r-2 border-green-400">architect --deploy neary</span>
+                      <span className="text-accent-primary tracking-tighter">
+                        ❯
+                      </span>
+                      <span className="text-green-400 overflow-hidden whitespace-nowrap animate-typing border-r-2 border-green-400">
+                        architect --deploy neary
+                      </span>
                     </div>
-                    <div className="text-white/40 delay-500 animate-fade-in">Initializing distributed cluster...</div>
+                    <div className="text-white/40 delay-500 animate-fade-in">
+                      Initializing distributed cluster...
+                    </div>
                     <div className="text-white/60 font-bold animate-fade-in delay-700">
-                      <span className="text-blue-400">LoadBalancer:</span> 20M+ connected
+                      <span className="text-blue-400">LoadBalancer:</span> 20M+
+                      connected
                     </div>
                     <div className="mt-4 p-4 rounded-lg bg-white/[0.03] border border-white/5 space-y-2 animate-fade-in delay-1000">
-                      <div className="text-purple-400 italic font-medium">// Optimization Loop</div>
+                      <div className="text-purple-400 italic font-medium">
+                        {"// Optimization Loop"}
+                      </div>
                       <code className="text-white/70 block leading-normal">
-                        <span className="text-accent-primary font-bold">func</span> <span className="text-blue-300">Scale</span>() &#123; <br />
-                        &nbsp;&nbsp;<span className="text-purple-400">for</span> &#123; <br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;neary.<span className="text-green-300">Sync</span>() <br />
+                        <span className="text-accent-primary font-bold">
+                          func
+                        </span>{" "}
+                        <span className="text-blue-300">Scale</span>() &#123;{" "}
+                        <br />
+                        &nbsp;&nbsp;<span className="text-purple-400">
+                          for
+                        </span>{" "}
+                        &#123; <br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;neary.
+                        <span className="text-green-300">Sync</span>() <br />
                         &nbsp;&nbsp;&#125; <br />
                         &#125;
                       </code>
@@ -225,25 +257,43 @@ const HeroSection = React.memo(() => {
 
       <style jsx>{`
         @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
         @keyframes typing {
-          from { width: 0 }
-          to { width: 100% }
+          from {
+            width: 0;
+          }
+          to {
+            width: 100%;
+          }
         }
         @keyframes blink {
-          50% { border-color: transparent }
+          50% {
+            border-color: transparent;
+          }
         }
         @keyframes fade-in {
-          from { opacity: 0; transform: translateY(5px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
         .animate-spin-slow {
           animation: spin-slow 30s linear infinite;
         }
         .animate-typing {
-          animation: typing 1.5s steps(30, end), blink 0.8s step-end infinite;
+          animation:
+            typing 1.5s steps(30, end),
+            blink 0.8s step-end infinite;
         }
         .animate-fade-in {
           animation: fade-in 0.8s ease-out forwards;

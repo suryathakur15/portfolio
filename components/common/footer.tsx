@@ -1,8 +1,11 @@
 import Image from "next/image";
-import { EMAIL, SOCIAL_LINKS, SOCIAL_HOVER_STYLES } from "../../constants";
+import { EMAIL, SOCIAL_LINKS } from "../../constants";
+import { getRandomSocialColor } from "../../utils";
 
 const Footer = () => {
-  const socialKeys = Object.keys(SOCIAL_LINKS) as Array<keyof typeof SOCIAL_LINKS>;
+  const socialKeys = Object.keys(SOCIAL_LINKS) as Array<
+    keyof typeof SOCIAL_LINKS
+  >;
 
   return (
     <footer className="w-full relative overflow-hidden border-t border-white/5">
@@ -12,7 +15,6 @@ const Footer = () => {
       <div className="section-container py-20 md:py-28 relative z-10">
         {/* Main CTA Row */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-14 mb-16 md:mb-20">
-
           {/* Left — headline + email */}
           <div className="flex flex-col items-start max-w-lg">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white tracking-tighter leading-[1.08] mb-4">
@@ -22,8 +24,8 @@ const Footer = () => {
               </span>
             </h2>
             <p className="text-base md:text-lg text-white/50 font-light mb-8 leading-relaxed">
-              Open for collaborations, architecture consulting,&nbsp;
-              and lead engineering roles.
+              Open for collaborations, architecture consulting,&nbsp; and lead
+              engineering roles.
             </p>
             <a
               href={`mailto:${EMAIL}`}
@@ -40,7 +42,11 @@ const Footer = () => {
                 stroke="currentColor"
                 strokeWidth={2}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </a>
           </div>
@@ -52,7 +58,19 @@ const Footer = () => {
                 href={SOCIAL_LINKS[el]}
                 key={el}
                 aria-label={el}
-                className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-all duration-300 group ${SOCIAL_HOVER_STYLES[el] || "hover:border-accent-primary/60 hover:bg-accent-primary/10"}`}
+                onMouseEnter={(e) => {
+                  const solidColor = getRandomSocialColor();
+                  const alphaColor = getRandomSocialColor(0.1); // Lighter version as requested
+                  e.currentTarget.style.setProperty(
+                    "--hover-color",
+                    solidColor,
+                  );
+                  e.currentTarget.style.setProperty(
+                    "--hover-glow",
+                    "#aee6ff3d",
+                  );
+                }}
+                className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-all duration-500 group hover:border-[var(--hover-color)] hover:bg-[var(--hover-glow)] hover:shadow-[0_0_30px_rgba(0,0,0,0.2),0_0_20px_var(--hover-glow)] hover:scale-110 hover:-translate-y-1"
                 rel="noreferrer"
                 target="_blank"
               >
@@ -74,8 +92,12 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-bold uppercase tracking-[0.25em] text-white/25">
           <div className="flex flex-col items-center sm:items-start gap-1">
-            <span>© {new Date().getFullYear()} Surya Thakur · Lead Software Engineer</span>
-            <span className="font-accent text-lg text-accent-tertiary brightness-125 lowercase opacity-90 mt-1 tracking-wide">Handcrafted by Surya</span>
+            <span>
+              © {new Date().getFullYear()} Surya Thakur · Lead Software Engineer
+            </span>
+            <span className="font-accent text-lg text-accent-tertiary brightness-125 lowercase opacity-90 mt-1 tracking-wide">
+              Handcrafted by Surya
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.9)]" />
