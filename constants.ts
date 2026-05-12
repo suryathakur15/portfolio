@@ -84,7 +84,7 @@ export const EMAIL = "suryapratap1515@gmail.com";
 
 export const SOCIAL_LINKS = {
   linkedin: "https://www.linkedin.com/in/suryathakur15",
-  github: "https://github.com/surya-thakur15",
+  github: "https://github.com/suryathakur15",
   instagram: "https://www.instagram.com/surya_thakur15",
   twitter: "https://twitter.com/suryathakur15",
   topmate: "https://topmate.io/suryathakur15",

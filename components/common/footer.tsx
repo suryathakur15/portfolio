@@ -29,9 +29,9 @@ const Footer = () => {
             </p>
             <a
               href={`mailto:${EMAIL}`}
-              className="group inline-flex items-center gap-3 font-display font-bold text-white/90 hover:text-accent-primary transition-colors duration-300 text-lg sm:text-xl md:text-2xl"
+              className="group inline-flex items-center gap-3 font-display font-bold text-white/90 hover:text-white transition-colors duration-300 text-lg sm:text-xl md:text-2xl"
             >
-              <span className="underline underline-offset-4 decoration-white/20 group-hover:decoration-accent-primary/40 break-all">
+              <span className="underline underline-offset-4 decoration-white/20 group-hover:decoration-white/40 break-all">
                 {EMAIL}
               </span>
               <svg
